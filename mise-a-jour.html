@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mise à jour — XLSForm Pro</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%8B%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">📋 XLSForm Pro <span>by Armand TRE BI</span></a>
+    <div class="nav-links">
+      <a href="index.html#packs" class="nav-link">← Tous les packs</a>
+    </div>
+  </div>
+</nav>
+
+<section class="page-header">
+  <div class="container">
+    <a href="index.html#packs" class="page-crumb">&larr; retour aux packs</a>
+    <h1>🔄 Mise à jour de votre formulaire</h1>
+    <p>Vous avez un abonnement en cours et votre questionnaire a changé ? Renvoyez-le avec votre clé — pas besoin de repayer tant que vos crédits et vos 30 jours ne sont pas épuisés.</p>
+  </div>
+</section>
+
+<section class="container order-layout">
+
+  <div class="card">
+    <div class="field-title">Votre demande de mise à jour</div>
+    <div class="field-title-sub">L’email et la clé doivent correspondre à ceux de votre commande initiale.</div>
+
+    <div class="notice">
+      <strong>Vérification automatique.</strong> Votre email et votre clé sont vérifiés instantanément par notre serveur avant tout envoi de fichier : abonnement actif, crédits restants et délai de 30 jours. Un email ou une clé erronée est signalé immédiatement, sans que votre fichier ne soit transmis.
+    </div>
+
+    <form class="order-form" id="order-form">
+      <div class="field-grid">
+
+        <div class="field">
+          <label>Pack concerné <span class="req">*</span></label>
+          <select id="pack-select" required>
+            <option value="" selected disabled>Choisir votre pack…</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Nom du projet <span class="req">*</span></label>
+          <input type="text" name="nom_projet" id="np" required autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label>Email utilisé à l’achat <span class="req">*</span></label>
+          <input type="email" name="email_notification" id="em" required autocomplete="email">
+        </div>
+
+        <div class="field">
+          <label>Clé d’abonnement <span class="req">*</span></label>
+          <input type="text" id="key" required placeholder="Ex. KOB-4F2A-9QRT" style="text-transform:uppercase;">
+        </div>
+
+        <div class="field span-2" id="extended-fields" style="display:none;">
+          <div class="field-grid">
+            <div class="field">
+              <label>Sujet / objectif de l’étude</label>
+              <input type="text" name="sujet_etude" id="su">
+            </div>
+            <div class="field">
+              <label>Domaine / secteur</label>
+              <input type="text" name="domaine" id="do" placeholder="santé, éducation, agriculture…">
+            </div>
+            <div class="field">
+              <label>Type d’étude</label>
+              <select name="type_etude" id="te"><option value="" selected disabled>Choisir…</option></select>
+            </div>
+            <div class="field" id="autre-wrap" style="display:none;">
+              <label>Précisez le type d’étude</label>
+              <input type="text" name="type_etude_autre" id="tea">
+            </div>
+            <div class="field span-2">
+              <label>Format du XLSForm</label>
+              <div class="radio-row">
+                <label class="radio-opt"><input type="radio" name="format_xlsform" value="kobo" checked> KoboToolbox / ODK</label>
+                <label class="radio-opt"><input type="radio" name="format_xlsform" value="surveycto"> SurveyCTO</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field span-2">
+          <label>Questionnaire mis à jour <span class="req">*</span></label>
+          <div class="file-drop">
+            <input type="file" name="questionnaire_file" id="file" accept=".pdf,.docx,.xlsx" required>
+            <span class="file-status" id="file-status">Formats acceptés : .pdf, .docx, .xlsx — 25 Mo maximum.</span>
+          </div>
+        </div>
+
+        <div class="field span-2">
+          <label>Qu’est-ce qui a changé ? <span class="req">*</span></label>
+          <textarea id="notes" required placeholder="Décrivez les modifications apportées au questionnaire depuis votre dernière commande."></textarea>
+        </div>
+
+      </div>
+
+      <input type="hidden" name="observations" id="obs-hidden">
+      <input type="hidden" name="language" value="fr">
+
+      <div class="submit-row">
+        <button type="submit" class="submit-btn abonnement" id="submit-btn" disabled>Choisissez d’abord un pack</button>
+      </div>
+    </form>
+
+    <div class="order-result" id="order-result">
+      <div class="sending"><span class="spinner"></span><span>Envoi de votre demande en cours…</span></div>
+      <div class="result-body" style="display:none;">
+        <h3 id="result-title">Demande de mise à jour envoyée</h3>
+        <p id="result-text"></p>
+      </div>
+    </div>
+  </div>
+
+  <aside class="card summary-card">
+    <div class="summary-brand">Rappel</div>
+    <div class="summary-name" style="font-size:1.05rem;">Comment ça marche</div>
+    <ul class="summary-deliverables">
+      <li>Votre clé vous a été communiquée à la commande de votre abonnement</li>
+      <li>Chaque abonnement donne droit à 10 créations ou corrections</li>
+      <li>Valable 30 jours à partir de la date d’achat</li>
+      <li>Clé perdue ou expirée ? Écrivez à armanddavy7@gmail.com</li>
+    </ul>
+  </aside>
+
+</section>
+
+<footer class="footer">
+  <p><strong>Irié Armand Davy TRE BI</strong> — Digital Health &amp; Data Analyst · Jhpiego/RISE · Abidjan, Côte d'Ivoire</p>
+  <p style="margin-top:6px">armanddavy7@gmail.com · <a href="https://linkedin.com/in/tre-bi" style="color:var(--orange)">LinkedIn</a> · <a href="https://github.com/trebi7" style="color:var(--orange)">GitHub</a></p>
+</footer>
+
+<iframe name="silent-target" title="Envoi du formulaire" style="position:absolute; width:1px; height:1px; opacity:0; pointer-events:none;"></iframe>
+
+<script src="assets/products.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  var select = document.getElementById("pack-select");
+  PRODUCTS.forEach(function(p){
+    var opt = document.createElement("option");
+    opt.value = p.id;
+    opt.textContent = p.packLabel + " — " + p.brand;
+    select.appendChild(opt);
+  });
+
+  var teSelect = document.getElementById("te");
+  TYPE_ETUDE.forEach(function(t){
+    var opt = document.createElement("option");
+    opt.value = t[0]; opt.textContent = t[1];
+    teSelect.appendChild(opt);
+  });
+  teSelect.addEventListener("change", function(){
+    document.getElementById("autre-wrap").style.display = teSelect.value === "autre" ? "" : "none";
+  });
+
+  var form = document.getElementById("order-form");
+  var extendedWrap = document.getElementById("extended-fields");
+  var submitBtn = document.getElementById("submit-btn");
+  var currentProduct = null;
+
+  select.addEventListener("change", function(){
+    currentProduct = xlsFindProduct(select.value);
+    if (!currentProduct) return;
+    form.action = WEBHOOK_BASE + currentProduct.webhookPath;
+    extendedWrap.style.display = currentProduct.fields === "extended" ? "" : "none";
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Envoyer ma mise à jour — " + currentProduct.brand;
+  });
+
+  form.method = "POST";
+  form.enctype = "multipart/form-data";
+  form.target = "silent-target";
+
+  var fileInput = document.getElementById("file");
+  var fileStatus = document.getElementById("file-status");
+  fileInput.addEventListener("change", function(){
+    var f = fileInput.files[0];
+    if (!f){ fileStatus.textContent = "Formats acceptés : .pdf, .docx, .xlsx — 25 Mo maximum."; fileStatus.className = "file-status"; return; }
+    var ext = f.name.split(".").pop().toLowerCase();
+    var okExt = ["pdf","docx","xlsx"].indexOf(ext) !== -1;
+    var okSize = f.size <= 25 * 1024 * 1024;
+    if (!okExt){
+      fileStatus.textContent = "Format ." + ext + " non pris en charge. Utilisez .pdf, .docx ou .xlsx.";
+      fileStatus.className = "file-status err";
+      fileInput.value = "";
+    } else if (!okSize){
+      fileStatus.textContent = "Fichier trop volumineux (" + (f.size/1024/1024).toFixed(1) + " Mo). 25 Mo maximum.";
+      fileStatus.className = "file-status err";
+      fileInput.value = "";
+    } else {
+      fileStatus.textContent = f.name + " — " + (f.size/1024/1024).toFixed(1) + " Mo. Fichier prêt.";
+      fileStatus.className = "file-status ok";
+    }
+  });
+
+  var obsHidden = document.getElementById("obs-hidden");
+  var resultBox = document.getElementById("order-result");
+  var resultTitle = document.getElementById("result-title");
+  var resultText = document.getElementById("result-text");
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    var key = document.getElementById("key").value.trim().toUpperCase();
+    var email = document.getElementById("em").value.trim();
+    var notes = document.getElementById("notes").value.trim();
+    obsHidden.value =
+      "DEMANDE DE MISE A JOUR (abonnement)\n" +
+      "Email de commande initiale : " + email + "\n" +
+      "Clé d'abonnement fournie : " + key + "\n\n" +
+      "Changements apportés au questionnaire :\n" + notes;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Vérification de votre abonnement…";
+    resultBox.classList.add("show");
+    resultBox.scrollIntoView({behavior:"smooth", block:"center"});
+
+    /* Vérification serveur réelle (n8n Data Table) AVANT tout envoi de
+       fichier : on n'appelle form.submit() que si l'email + la clé
+       correspondent à un abonnement actif, avec des crédits restants,
+       encore dans les 30 jours. */
+    fetch(WEBHOOK_BASE + "abonnement-verification", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        produit: currentProduct.id,
+        email_notification: email,
+        cle_abonnement: key
+      })
+    }).then(function(r){
+      return r.json().catch(function(){ return { ok: false, message: "Réponse du serveur illisible." }; });
+    }).catch(function(){
+      return { ok: false, message: "Impossible de joindre le serveur de vérification. Réessayez dans un instant." };
+    }).then(function(verifResult){
+      resultBox.querySelector(".sending").style.display = "none";
+      resultBox.querySelector(".result-body").style.display = "";
+      resultBox.classList.remove("reject");
+
+      if (verifResult && verifResult.ok){
+        submitBtn.textContent = "Envoi du questionnaire…";
+        form.submit();
+        var creditsMsg = (typeof verifResult.credits_restants === "number")
+          ? " Il vous reste " + verifResult.credits_restants + " création(s) ou correction(s) sur cet abonnement."
+          : "";
+        resultTitle.textContent = "Mise à jour acceptée";
+        resultText.textContent = "Votre email et votre clé ont été vérifiés. Votre questionnaire mis à jour a été transmis et vous recevrez vos livrables par email, généralement en quelques minutes." + creditsMsg;
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Envoyer ma mise à jour — " + currentProduct.brand;
+        resultBox.classList.add("reject");
+        resultTitle.textContent = "Mise à jour refusée";
+        resultText.textContent = (verifResult && verifResult.message)
+          ? verifResult.message
+          : ("Votre email ou votre clé ne correspond à aucun abonnement actif pour ce pack. Vérifiez-les, ou écrivez à " + CONTACT_EMAIL + ".");
+      }
+    });
+  });
+
+})();
+</script>
+</body>
+</html>

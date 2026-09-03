@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Commande — XLSForm Pro</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%8B%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">📋 XLSForm Pro <span>by Armand TRE BI</span></a>
+    <div class="nav-links">
+      <a href="mise-a-jour.html" class="nav-link">🔄 Mise à jour</a>
+      <a href="index.html#packs" class="nav-link">← Tous les packs</a>
+    </div>
+  </div>
+</nav>
+
+<section class="page-header">
+  <div class="container">
+    <a href="index.html#packs" class="page-crumb">&larr; retour aux packs</a>
+    <h1 id="ph-title">Commande</h1>
+    <p id="ph-sub">Chargement du pack sélectionné…</p>
+  </div>
+</section>
+
+<section class="container order-layout" id="order-layout" style="display:none;">
+
+  <div class="card">
+    <div class="field-title" id="form-title">Vos informations</div>
+    <div class="field-title-sub" id="form-sub">Renseignez votre projet et joignez votre questionnaire.</div>
+
+    <div class="notice" id="chariow-notice" style="display:none;">
+      <strong>Paiement Chariow — bientôt en ligne.</strong> Le lien de paiement direct pour ce pack est en cours de configuration. Envoyez tout de même votre commande ci-dessous : elle sera traitée dès réception de votre paiement, à régler auprès d'Armand par email ou WhatsApp.
+    </div>
+
+    <form class="order-form" id="order-form"></form>
+
+    <div class="order-result" id="order-result">
+      <div class="sending"><span class="spinner"></span><span>Envoi de votre questionnaire en cours…</span></div>
+      <div class="result-body" style="display:none;">
+        <h3 id="result-title">Commande envoyée</h3>
+        <p id="result-text"></p>
+        <div id="result-key"></div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="card summary-card" id="summary-card"></aside>
+
+</section>
+
+<footer class="footer">
+  <p><strong>Irié Armand Davy TRE BI</strong> — Digital Health &amp; Data Analyst · Jhpiego/RISE · Abidjan, Côte d'Ivoire</p>
+  <p style="margin-top:6px">armanddavy7@gmail.com · <a href="https://linkedin.com/in/tre-bi" style="color:var(--orange)">LinkedIn</a> · <a href="https://github.com/trebi7" style="color:var(--orange)">GitHub</a></p>
+</footer>
+
+<iframe name="silent-target" title="Envoi du formulaire" style="position:absolute; width:1px; height:1px; opacity:0; pointer-events:none;"></iframe>
+
+<script src="assets/products.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  var params = new URLSearchParams(window.location.search);
+  var product = xlsFindProduct(params.get("pack"));
+  var initialPlan = params.get("plan") === "abonnement" ? "abonnement" : "unique";
+
+  var phTitle = document.getElementById("ph-title");
+  var phSub = document.getElementById("ph-sub");
+  var layout = document.getElementById("order-layout");
+
+  if (!product){
+    phTitle.textContent = "Pack introuvable";
+    phSub.textContent = "Le pack demandé n'existe pas. Retournez à la liste des packs pour en choisir un.";
+    return;
+  }
+
+  document.title = product.brand + " — Commande — XLSForm Pro";
+  phTitle.textContent = product.brand;
+  phSub.textContent = product.tagline;
+  layout.style.display = "grid";
+
+  var currentPlan = initialPlan;
+
+  /* ---------- summary sidebar ---------- */
+  var summaryEl = document.getElementById("summary-card");
+  function renderSummary(){
+    var plan = product.plans[currentPlan];
+    var deliverablesHtml = product.deliverables.map(function(d){ return "<li>" + d + "</li>"; }).join("");
+    summaryEl.innerHTML =
+      '<div class="summary-brand">' + product.packLabel + ' · ' + product.tag + '</div>' +
+      '<div class="summary-name">' + product.brand + '</div>' +
+      '<div class="summary-tagline">' + product.desc + '</div>' +
+      '<ul class="summary-deliverables">' + deliverablesHtml + '</ul>' +
+      '<div class="plan-toggle">' +
+        '<button type="button" class="plan-tab unique' + (currentPlan === "unique" ? " active unique" : "") + '" data-plan="unique">Unique</button>' +
+        '<button type="button" class="plan-tab abonnement' + (currentPlan === "abonnement" ? " active abonnement" : "") + '" data-plan="abonnement">Abonnement</button>' +
+      '</div>' +
+      '<div class="plan-summary' + (currentPlan === "abonnement" ? " abonnement" : "") + '">' +
+        '<span class="amt">' + xlsFmtFCFA(plan.amount) + '</span>' + plan.detail +
+      '</div>' +
+      '<div class="pay-box">' +
+        '<div class="pay-label">Paiement</div>' +
+        '<button type="button" class="pay-btn" disabled>🔒 Payer sur Chariow — lien à venir</button>' +
+        '<p class="pay-note">Le paiement en ligne sera bientôt disponible pour ' + product.brand + '. En attendant, réglez directement auprès d’Armand après avoir envoyé votre commande.</p>' +
+      '</div>';
+
+    Array.prototype.forEach.call(summaryEl.querySelectorAll(".plan-tab"), function(btn){
+      btn.addEventListener("click", function(){
+        currentPlan = btn.getAttribute("data-plan");
+        renderSummary();
+        updateFormForPlan();
+      });
+    });
+  }
+  renderSummary();
+
+  /* ---------- form ---------- */
+  var form = document.getElementById("order-form");
+  form.method = "POST";
+  form.enctype = "multipart/form-data";
+  form.target = "silent-target";
+  form.action = WEBHOOK_BASE + product.webhookPath;
+
+  var grid = document.createElement("div");
+  grid.className = "field-grid";
+  form.appendChild(grid);
+
+  function field(labelText, inputHtml, span2, hint){
+    var wrap = document.createElement("div");
+    wrap.className = "field" + (span2 ? " span-2" : "");
+    wrap.innerHTML = '<label>' + labelText + '</label>' + inputHtml + (hint ? '<span class="hint">' + hint + '</span>' : "");
+    grid.appendChild(wrap);
+    return wrap;
+  }
+
+  var uid = product.id;
+
+  field('Nom du projet <span class="req">*</span>',
+    '<input type="text" name="nom_projet" id="np-' + uid + '" required autocomplete="off">');
+
+  field('Email de notification <span class="req">*</span>',
+    '<input type="email" name="email_notification" id="em-' + uid + '" required autocomplete="email">',
+    false, "Vos livrables — et votre clé d’abonnement le cas échéant — y seront envoyés.");
+
+  if (product.fields === "extended"){
+    field('Sujet / objectif de l’étude <span class="req">*</span>',
+      '<input type="text" name="sujet_etude" id="su-' + uid + '" required>');
+
+    field('Domaine / secteur <span class="req">*</span>',
+      '<input type="text" name="domaine" id="do-' + uid + '" required placeholder="santé, éducation, agriculture…">');
+
+    var typeOptions = TYPE_ETUDE.map(function(t){ return '<option value="' + t[0] + '">' + t[1] + '</option>'; }).join("");
+    var typeWrap = field('Type d’étude <span class="req">*</span>',
+      '<select name="type_etude" id="te-' + uid + '" required><option value="" selected disabled>Choisir…</option>' + typeOptions + '</select>');
+
+    var autreWrap = field('Précisez le type d’étude', '<input type="text" name="type_etude_autre" id="tea-' + uid + '">');
+    autreWrap.style.display = "none";
+    typeWrap.querySelector("select").addEventListener("change", function(e){
+      autreWrap.style.display = e.target.value === "autre" ? "" : "none";
+    });
+
+    field('Format du XLSForm',
+      '<div class="radio-row">' +
+      '<label class="radio-opt"><input type="radio" name="format_xlsform" value="kobo" checked> KoboToolbox / ODK</label>' +
+      '<label class="radio-opt"><input type="radio" name="format_xlsform" value="surveycto"> SurveyCTO</label>' +
+      '</div>');
+  }
+
+  field('Langue des livrables',
+    '<div class="radio-row">' +
+    '<label class="radio-opt"><input type="radio" name="language" value="fr" checked> Français</label>' +
+    '<label class="radio-opt"><input type="radio" name="language" value="en"> English</label>' +
+    '</div>');
+
+  var fileWrap = document.createElement("div");
+  fileWrap.className = "field span-2";
+  fileWrap.innerHTML =
+    '<label>Questionnaire à convertir <span class="req">*</span></label>' +
+    '<div class="file-drop">' +
+    '<input type="file" name="questionnaire_file" id="file-' + uid + '" accept=".pdf,.docx,.xlsx" required>' +
+    '<span class="file-status" id="file-status-' + uid + '">Formats acceptés : .pdf, .docx, .xlsx — 25 Mo maximum.</span>' +
+    '</div>';
+  grid.appendChild(fileWrap);
+
+  var fileInput = fileWrap.querySelector("input[type=file]");
+  var fileStatus = document.getElementById("file-status-" + uid);
+  fileInput.addEventListener("change", function(){
+    var f = fileInput.files[0];
+    if (!f){ fileStatus.textContent = "Formats acceptés : .pdf, .docx, .xlsx — 25 Mo maximum."; fileStatus.className = "file-status"; return; }
+    var ext = f.name.split(".").pop().toLowerCase();
+    var okExt = ["pdf","docx","xlsx"].indexOf(ext) !== -1;
+    var okSize = f.size <= 25 * 1024 * 1024;
+    if (!okExt){
+      fileStatus.textContent = "Format ." + ext + " non pris en charge. Utilisez .pdf, .docx ou .xlsx.";
+      fileStatus.className = "file-status err";
+      fileInput.value = "";
+    } else if (!okSize){
+      fileStatus.textContent = "Fichier trop volumineux (" + (f.size/1024/1024).toFixed(1) + " Mo). 25 Mo maximum.";
+      fileStatus.className = "file-status err";
+      fileInput.value = "";
+    } else {
+      fileStatus.textContent = f.name + " — " + (f.size/1024/1024).toFixed(1) + " Mo. Fichier prêt.";
+      fileStatus.className = "file-status ok";
+    }
+  });
+
+  var keyBoxWrap = document.createElement("div");
+  keyBoxWrap.className = "field span-2";
+  keyBoxWrap.id = "key-info-" + uid;
+  grid.appendChild(keyBoxWrap);
+
+  var notesWrap = document.createElement("div");
+  notesWrap.className = "field span-2";
+  notesWrap.innerHTML =
+    '<label>Observations</label>' +
+    '<textarea id="notes-' + uid + '" placeholder="Toute précision utile pour votre commande (délai souhaité, particularités du questionnaire…)."></textarea>';
+  grid.appendChild(notesWrap);
+  var notesInput = notesWrap.querySelector("textarea");
+
+  var obsHidden = document.createElement("input");
+  obsHidden.type = "hidden";
+  obsHidden.name = "observations";
+  form.appendChild(obsHidden);
+
+  var submitRow = document.createElement("div");
+  submitRow.className = "submit-row";
+  var submitBtn = document.createElement("button");
+  submitBtn.type = "submit";
+  submitBtn.className = "submit-btn";
+  var totalLabel = document.createElement("span");
+  totalLabel.className = "submit-total";
+  submitRow.appendChild(submitBtn);
+  submitRow.appendChild(totalLabel);
+  form.appendChild(submitRow);
+
+  function updateFormForPlan(){
+    var plan = product.plans[currentPlan];
+    submitBtn.className = "submit-btn" + (currentPlan === "abonnement" ? " abonnement" : "");
+    submitBtn.textContent = currentPlan === "abonnement" ? "Envoyer ma commande — Abonnement" : "Envoyer ma commande";
+    totalLabel.innerHTML = 'Total — <strong>' + xlsFmtFCFA(plan.amount) + '</strong>';
+    if (currentPlan === "abonnement"){
+      keyBoxWrap.innerHTML =
+        '<div class="key-box">🔑 Une <strong>clé d’abonnement</strong> vous sera attribuée à l’envoi de cette commande. Conservez-la avec l’email utilisé ici : les deux vous seront redemandés sur la page <em>Mise à jour</em> pour vos ' + plan.credits + ' prochaines créations ou corrections, valables ' + plan.days + ' jours.</div>';
+    } else {
+      keyBoxWrap.innerHTML = "";
+    }
+  }
+  updateFormForPlan();
+
+  var resultBox = document.getElementById("order-result");
+  var resultTitle = document.getElementById("result-title");
+  var resultText = document.getElementById("result-text");
+  var resultKey = document.getElementById("result-key");
+
+  form.addEventListener("submit", function(){
+    var plan = product.plans[currentPlan];
+    var isSub = currentPlan === "abonnement";
+    var key = isSub ? xlsGenerateKey(product.id) : null;
+    var emailValue = document.getElementById("em-" + uid).value.trim();
+    var nomProjetValue = document.getElementById("np-" + uid).value.trim();
+
+    var prefix = "Formule : " + plan.label + " (" + xlsFmtFCFA(plan.amount) + ") — " + plan.detail;
+    if (isSub) prefix += "\nClé d'abonnement attribuée : " + key;
+    var notes = notesInput.value.trim();
+    obsHidden.value = notes ? prefix + "\n\nNotes du client : " + notes : prefix;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Envoi en cours…";
+    resultBox.classList.add("show");
+    if (isSub) resultBox.classList.add("key-issued");
+    resultBox.scrollIntoView({behavior:"smooth", block:"center"});
+
+    /* Le fichier part par POST classique (iframe cachée) vers le générateur —
+       inchangé. En parallèle, pour un abonnement, on enregistre réellement la
+       clé côté serveur (n8n Data Table) via un appel fetch() dont on attend
+       la vraie réponse avant d'afficher la confirmation au client. */
+    var registerPromise = isSub
+      ? fetch(WEBHOOK_BASE + "abonnement-emission", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            produit: product.id,
+            email_notification: emailValue,
+            cle_abonnement: key,
+            nom_projet: nomProjetValue
+          })
+        }).then(function(r){
+          return r.json().catch(function(){ return { ok: r.ok }; });
+        }).catch(function(){
+          return { ok: false, message: "Impossible de joindre le serveur d'enregistrement." };
+        })
+      : Promise.resolve({ ok: true });
+
+    registerPromise.then(function(registerResult){
+      window.setTimeout(function(){
+        resultBox.querySelector(".sending").style.display = "none";
+        resultBox.querySelector(".result-body").style.display = "";
+
+        if (isSub && registerResult && registerResult.ok === false){
+          resultTitle.textContent = "Commande envoyée — clé à confirmer";
+          resultText.textContent = "Votre questionnaire a bien été transmis, mais l'enregistrement automatique de votre clé d'abonnement a échoué (" + (registerResult.message || "erreur inconnue") + "). Conservez la clé ci-dessous et écrivez à " + CONTACT_EMAIL + " avec votre email de commande pour que votre abonnement soit activé manuellement.";
+        } else {
+          resultTitle.textContent = isSub ? "Commande envoyée — abonnement activé" : "Commande envoyée";
+          resultText.textContent = "Merci ! Votre questionnaire a bien été transmis. Vous recevrez vos livrables par email, généralement en quelques minutes. En cas de doute, écrivez à " + CONTACT_EMAIL + ".";
+        }
+
+        resultKey.innerHTML = isSub
+          ? '<p>Votre clé d’abonnement :</p><span class="key-display">' + key + '</span><p style="margin-top:10px;">Notez-la avec l’email <strong>' + (emailValue || "utilisé ici") + '</strong> — les deux vous seront redemandés sur la page Mise à jour.</p>'
+          : "";
+      }, isSub ? 200 : 1600);
+    });
+  });
+
+})();
+</script>
+</body>
+</html>
