@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XLSForm Pro — Convertisseur de questionnaires KoboToolbox</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%8B%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">📋 XLSForm Pro (Les packages indispensables) <span>Armand Davy TRE BI, Data Analyst</span></a>
+    <a href="#packs" class="nav-link">Voir les packs →</a>
+  </div>
+</nav>
+
+<section class="audience-intro">
+  <div class="container">
+    <p class="audience-intro-text">Vous êtes <strong>Data Analyst</strong>, <strong>Statisticien</strong>, passionné de la data ou chargé de l'analyse des données d'une étude — vous êtes au bon endroit.</p>
+  </div>
+</section>
+
+<section class="how">
+  <div class="container">
+    <h2 class="section-title">Comment ça marche</h2>
+    <p class="section-sub">Première commande ou mise à jour — même simplicité.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-title">Choisissez votre pack</div>
+        <div class="step-desc">KoboConvert, CTOConvert, DataReady, FormR Stats ou FormR Premium.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-title">Chargez et payez</div>
+        <div class="step-desc">Déposez votre questionnaire, réglez via Chariow — formule unique ou abonnement.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-title">Recevez vos livrables</div>
+        <div class="step-desc">Tous vos fichiers par email, généralement en quelques minutes.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-title">Mettez à jour</div>
+        <div class="step-desc">Questionnaire modifié ? Utilisez votre clé d'abonnement pour renvoyer une version.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="packs-section" id="packs">
+  <div class="container">
+    <h2 class="section-title">Choisissez votre pack</h2>
+    <p class="section-sub">Chaque pack ouvre sa propre page de commande, adaptée à ce qu'il inclut.</p>
+
+    <div class="packs-grid" id="packs-grid"></div>
+
+    <div class="update-cta">
+      <p>Vous avez déjà un abonnement et votre questionnaire a évolué ?</p>
+      <a href="mise-a-jour.html">🔄 Accéder à la page de mise à jour</a>
+    </div>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <p><strong>Irié Armand Davy TRE BI</strong> — Digital Health &amp; Data Analyst · Jhpiego/RISE · Abidjan, Côte d'Ivoire</p>
+  <p style="margin-top:6px">armanddavy7@gmail.com · <a href="https://linkedin.com/in/tre-bi" style="color:var(--orange)">LinkedIn</a> · <a href="https://github.com/trebi7" style="color:var(--orange)">GitHub</a></p>
+</footer>
+
+<script src="assets/products.js"></script>
+<script>
+(function(){
+  "use strict";
+  var grid = document.getElementById("packs-grid");
+
+  PRODUCTS.forEach(function(p){
+    var card = document.createElement("div");
+    card.className = "pack-card" + (p.popular ? " popular" : "");
+
+    var inheritedLi = "";
+    var divider = "";
+    if (p.inheritsFrom){
+      inheritedLi = '<li class="inherited">' + p.inheritsFrom.label + '</li>';
+      divider = '<div class="pack-divider"></div>';
+    }
+    var ownLis = p.deliverables.map(function(d){ return "<li>" + d + "</li>"; }).join("");
+
+    card.innerHTML =
+      '<div class="pack-progress"><div class="pack-progress-fill" style="width:' + p.progress + '%"></div></div>' +
+      '<div class="pack-price-badge">Dès ' + xlsFmtFCFA(p.plans.unique.amount) + '<small>' + p.brand + '</small></div>' +
+      '<div class="pack-header">' +
+        '<div class="pack-label">' + p.packLabel + '</div>' +
+        '<div class="pack-name">' + p.brand + '</div>' +
+        '<div class="pack-tagline">' + p.tagline + '</div>' +
+      '</div>' +
+      '<ul class="pack-deliverables">' + inheritedLi + divider + ownLis + '</ul>' +
+      '<div class="pack-plans">' +
+        '<a class="plan-btn unique" href="commande.html?pack=' + p.id + '&plan=unique">' +
+          '<span class="plan-btn-label">Exécution unique</span><span class="plan-btn-amount">' + xlsFmtFCFA(p.plans.unique.amount) + '</span>' +
+        '</a>' +
+        '<a class="plan-btn abonnement" href="commande.html?pack=' + p.id + '&plan=abonnement">' +
+          '<span class="plan-btn-label">Abonnement</span><span class="plan-btn-amount">' + xlsFmtFCFA(p.plans.abonnement.amount) + '</span>' +
+        '</a>' +
+        '<p class="plan-note"><strong>Abonnement</strong> = ' + p.plans.abonnement.credits + ' créations/corrections sur ' + p.plans.abonnement.days + ' jours, avec clé d’accès.</p>' +
+      '</div>';
+
+    grid.appendChild(card);
+  });
+})();
+</script>
+</body>
+</html>
