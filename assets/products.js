@@ -1,4 +1,3 @@
-
 /* ==========================================================================
    Générateurs XLSForm — données produits partagées
    Utilisé par index.html, commande.html et mise-a-jour.html
@@ -31,6 +30,8 @@ var PRODUCTS = [
     desc: "Votre questionnaire Word, PDF ou Excel devient un fichier .xlsx prêt à importer dans KoboToolbox ou ODK Central.",
     webhookPath: "xlsform-questionnaire",
     fields: "simple",
+    formats: [".docx", ".xlsx", ".xls", ".pdf"],
+    duration: "en 4 à 5 minutes après envoi",
     popular: false,
     progress: 20,
     inheritsFrom: null,
@@ -54,6 +55,8 @@ var PRODUCTS = [
     desc: "Même pipeline que KoboConvert, adapté aux spécificités de SurveyCTO : field-plans, contraintes et types propres à la plateforme.",
     webhookPath: "surveycto-questionnaire",
     fields: "simple",
+    formats: [".docx", ".xlsx", ".pdf"],
+    duration: "en 4 à 5 minutes après envoi",
     popular: false,
     progress: 20,
     inheritsFrom: null,
@@ -77,6 +80,8 @@ var PRODUCTS = [
     desc: "Le XLSForm validé, plus un plan d'analyse structuré sur vos propres indicateurs — prêt à collecter et à analyser.",
     webhookPath: "plan-analyse-questionnaire",
     fields: "extended",
+    formats: [".docx", ".xlsx", ".pdf"],
+    duration: "en 7 à 8 minutes après envoi",
     popular: true,
     progress: 50,
     inheritsFrom: { id: "kobo", label: "Tout KoboConvert" },
@@ -100,6 +105,8 @@ var PRODUCTS = [
     desc: "Ajoute des scripts R d'import, de nettoyage et de tableaux croisés, générés à partir de la structure exacte de votre questionnaire.",
     webhookPath: "177a8632-f1ae-4062-bd9b-2a7bdd6c4d70",
     fields: "extended",
+    formats: [".docx", ".xlsx", ".pdf"],
+    duration: "en environ 6 minutes après envoi",
     popular: false,
     progress: 75,
     inheritsFrom: { id: "plan-analyse", label: "Tout DataReady" },
@@ -123,6 +130,8 @@ var PRODUCTS = [
     desc: "Tout FormR Stats, plus un tableau de bord connecté à la structure de vos données.",
     webhookPath: "afac4eba-5ba6-4783-a7e6-9cc15dc05b8e",
     fields: "extended",
+    formats: [".docx", ".xlsx", ".pdf"],
+    duration: "communiqué après réception de votre questionnaire — le dashboard ajoute une étape de conception",
     popular: false,
     progress: 100,
     inheritsFrom: { id: "scripts-r", label: "Tout FormR Stats" },

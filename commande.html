@@ -86,6 +86,9 @@
   phSub.textContent = product.tagline;
   layout.style.display = "grid";
 
+  document.getElementById("form-sub").textContent =
+    "Renseignez votre projet et joignez votre questionnaire — traitement " + product.duration + ".";
+
   var currentPlan = initialPlan;
 
   /* ---------- summary sidebar ---------- */
@@ -179,13 +182,18 @@
     '<label class="radio-opt"><input type="radio" name="language" value="en"> English</label>' +
     '</div>');
 
+  var acceptedFormats = product.formats || [".pdf", ".docx", ".xlsx"];
+  var acceptExts = acceptedFormats.map(function(f){ return f.replace(".", "").toLowerCase(); });
+  var formatsLabel = acceptedFormats.join(", ");
+  var defaultFileHint = "Formats acceptés : " + formatsLabel + " — 25 Mo maximum.";
+
   var fileWrap = document.createElement("div");
   fileWrap.className = "field span-2";
   fileWrap.innerHTML =
     '<label>Questionnaire à convertir <span class="req">*</span></label>' +
     '<div class="file-drop">' +
-    '<input type="file" name="questionnaire_file" id="file-' + uid + '" accept=".pdf,.docx,.xlsx" required>' +
-    '<span class="file-status" id="file-status-' + uid + '">Formats acceptés : .pdf, .docx, .xlsx — 25 Mo maximum.</span>' +
+    '<input type="file" name="questionnaire_file" id="file-' + uid + '" accept="' + acceptedFormats.join(",") + '" required>' +
+    '<span class="file-status" id="file-status-' + uid + '">' + defaultFileHint + '</span>' +
     '</div>';
   grid.appendChild(fileWrap);
 
@@ -193,12 +201,12 @@
   var fileStatus = document.getElementById("file-status-" + uid);
   fileInput.addEventListener("change", function(){
     var f = fileInput.files[0];
-    if (!f){ fileStatus.textContent = "Formats acceptés : .pdf, .docx, .xlsx — 25 Mo maximum."; fileStatus.className = "file-status"; return; }
+    if (!f){ fileStatus.textContent = defaultFileHint; fileStatus.className = "file-status"; return; }
     var ext = f.name.split(".").pop().toLowerCase();
-    var okExt = ["pdf","docx","xlsx"].indexOf(ext) !== -1;
+    var okExt = acceptExts.indexOf(ext) !== -1;
     var okSize = f.size <= 25 * 1024 * 1024;
     if (!okExt){
-      fileStatus.textContent = "Format ." + ext + " non pris en charge. Utilisez .pdf, .docx ou .xlsx.";
+      fileStatus.textContent = "Format ." + ext + " non pris en charge. Utilisez " + formatsLabel + ".";
       fileStatus.className = "file-status err";
       fileInput.value = "";
     } else if (!okSize){
