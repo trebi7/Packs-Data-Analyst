@@ -101,13 +101,17 @@
       '</div>' +
       '<ul class="pack-deliverables">' + inheritedLi + divider + ownLis + '</ul>' +
       '<div class="pack-plans">' +
-        '<a class="plan-btn unique" href="commande.html?pack=' + p.id + '&plan=unique">' +
-          '<span class="plan-btn-label">Exécution unique</span><span class="plan-btn-amount">' + xlsFmtFCFA(p.plans.unique.amount) + '</span>' +
-        '</a>' +
-        '<a class="plan-btn abonnement" href="commande.html?pack=' + p.id + '&plan=abonnement">' +
-          '<span class="plan-btn-label">Abonnement</span><span class="plan-btn-amount">' + xlsFmtFCFA(p.plans.abonnement.amount) + '</span>' +
-        '</a>' +
-        '<p class="plan-note"><strong>Abonnement</strong> = ' + p.plans.abonnement.credits + ' créations/corrections sur ' + p.plans.abonnement.days + ' jours, avec clé d’accès.</p>' +
+        (p.standaloneFormUrl
+          ? '<a class="plan-btn unique" style="width:100%" href="' + p.standaloneFormUrl + '">' +
+              '<span class="plan-btn-label">Ouvrir le formulaire</span><span class="plan-btn-amount">→</span>' +
+            '</a>'
+          : '<a class="plan-btn unique" href="commande.html?pack=' + p.id + '&plan=unique">' +
+              '<span class="plan-btn-label">Exécution unique</span><span class="plan-btn-amount">' + xlsFmtFCFA(p.plans.unique.amount) + '</span>' +
+            '</a>' +
+            '<a class="plan-btn abonnement" href="commande.html?pack=' + p.id + '&plan=abonnement">' +
+              '<span class="plan-btn-label">Abonnement</span><span class="plan-btn-amount">' + xlsFmtFCFA(p.plans.abonnement.amount) + '</span>' +
+            '</a>' +
+            '<p class="plan-note"><strong>Abonnement</strong> = ' + p.plans.abonnement.credits + ' créations/corrections sur ' + p.plans.abonnement.days + ' jours, avec clé d’accès.</p>') +
       '</div>';
 
     grid.appendChild(card);
