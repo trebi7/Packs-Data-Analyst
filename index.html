@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>XLSForm Pro — Convertisseur de questionnaires KoboToolbox</title>
+<title data-i18n="title_index">XLSForm Pro — Convertisseur de questionnaires KoboToolbox</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%8B%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -13,58 +13,67 @@
 
 <nav class="nav">
   <div class="container nav-inner">
-    <a href="index.html" class="nav-logo">📋 L'Analyse des données, de la conception des outils au rapport <span>Armand Davy TRE BI, Data Analyst</span></a>
-    <a href="#packs" class="nav-link">Voir les packs →</a>
+    <a href="index.html" class="nav-logo" data-i18n-html="nav_logo">📋 L'Analyse des données, de la conception des outils au rapport <span>Armand Davy TRE BI, Data Analyst</span></a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="activer.html" class="nav-link" data-i18n="nav_activate">🔑 Ma clé</a>
+        <a href="#packs" class="nav-link" data-i18n="nav_see_packs">Voir les packs →</a>
+      </div>
+      <div class="lang-switch" role="group" aria-label="Langue / Language">
+        <button type="button" class="lang-btn" data-lang="fr">FR</button>
+        <button type="button" class="lang-btn" data-lang="en">EN</button>
+      </div>
+    </div>
   </div>
 </nav>
 
 <section class="audience-intro">
   <div class="container">
-    <p class="audience-intro-text">Vous êtes <strong>Data Analyst</strong>, <strong>Statisticien</strong>, <strong>passionné de la data ou chargé de l'analyse des données d'une étude</strong> — vous êtes au bon endroit.</p>
-  </div>
-</section>
-
-<section class="how">
-  <div class="container">
-    <h2 class="section-title">Comment ça marche</h2>
-    <p class="section-sub">Première commande ou mise à jour — même simplicité.</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-title">Choisissez votre pack</div>
-        <div class="step-desc">KoboConvert, CTOConvert, DataReady, FormR Stats ou FormR Premium.</div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-title">Chargez et payez</div>
-        <div class="step-desc">Déposez votre questionnaire, réglez via Chariow — formule unique ou abonnement.</div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-title">Recevez vos livrables</div>
-        <div class="step-desc">Tous vos fichiers par email, généralement en quelques minutes.</div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div class="step-title">Mettez à jour</div>
-        <div class="step-desc">Questionnaire modifié ? Utilisez votre clé d'abonnement pour renvoyer une version.</div>
-      </div>
-    </div>
+    <p class="audience-intro-text" data-i18n-html="audience">Vous êtes <strong>Data Analyst</strong>, <strong>Statisticien</strong>, <strong>passionné de la data ou chargé de l'analyse des données d'une étude</strong> — vous êtes au bon endroit.</p>
   </div>
 </section>
 
 <section class="packs-section" id="packs">
   <div class="container">
-    <h2 class="section-title">Choisissez votre pack</h2>
-    <p class="section-sub">Chaque pack ouvre sa propre page de commande, adaptée à ce qu'il inclut.</p>
+    <h2 class="section-title" data-i18n="packs_title">Choisissez votre pack</h2>
+    <p class="section-sub" data-i18n="packs_sub">Chaque pack ouvre sa propre page de commande, adaptée à ce qu'il inclut.</p>
 
     <div class="packs-grid" id="packs-grid"></div>
 
     <div class="update-cta">
-      <p>Vous avez déjà un abonnement et votre questionnaire a évolué ?</p>
-      <a href="mise-a-jour.html">🔄 Accéder à la page de mise à jour</a>
+      <p data-i18n="update_q">Déjà payé ? Recevez votre clé, ou renvoyez un questionnaire modifié.</p>
+      <a href="activer.html" data-i18n="update_link">🔑 Recevoir ma clé d’accès</a>
+      <a href="mise-a-jour.html" data-i18n="update_link2">🔄 Mettre à jour un questionnaire</a>
     </div>
+  </div>
+</section>
 
+<section class="how">
+  <div class="container">
+    <h2 class="section-title" data-i18n="how_title">Comment ça marche</h2>
+    <p class="section-sub" data-i18n="how_sub">Première commande ou mise à jour — même simplicité.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-title" data-i18n="step1_t">Choisissez votre pack</div>
+        <div class="step-desc" data-i18n="step1_d">KoboConvert, CTOConvert, DataReady, FormR Stats ou FormR Premium.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-title" data-i18n="step2_t">Chargez et payez</div>
+        <div class="step-desc" data-i18n="step2_d">Déposez votre questionnaire, réglez via Chariow — formule unique ou abonnement.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-title" data-i18n="step3_t">Recevez vos livrables</div>
+        <div class="step-desc" data-i18n="step3_d">Tous vos fichiers par email, généralement en quelques minutes.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-title" data-i18n="step4_t">Mettez à jour</div>
+        <div class="step-desc" data-i18n="step4_d">Questionnaire modifié ? Utilisez votre clé d'abonnement pour renvoyer une version.</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -73,49 +82,53 @@
   <p style="margin-top:6px">armanddavy7@gmail.com · <a href="https://linkedin.com/in/tre-bi" style="color:var(--orange)">LinkedIn</a> · <a href="https://github.com/trebi7" style="color:var(--orange)">GitHub</a></p>
 </footer>
 
+<script src="assets/i18n.js"></script>
 <script src="assets/products.js"></script>
 <script>
 (function(){
   "use strict";
   var grid = document.getElementById("packs-grid");
 
-  PRODUCTS.forEach(function(p){
-    var card = document.createElement("div");
-    card.className = "pack-card" + (p.popular ? " popular" : "");
+  function renderPacks(){
+    grid.innerHTML = "";
+    PRODUCTS.forEach(function(p){
+      var card = document.createElement("div");
+      card.className = "pack-card" + (p.popular ? " popular" : "");
+      if (p.popular) card.setAttribute("data-popular", xlsT("popular"));
 
-    var inheritedLi = "";
-    var divider = "";
-    if (p.inheritsFrom){
-      inheritedLi = '<li class="inherited">' + p.inheritsFrom.label + '</li>';
-      divider = '<div class="pack-divider"></div>';
-    }
-    var ownLis = p.deliverables.map(function(d){ return "<li>" + d + "</li>"; }).join("");
+      var inheritedLi = p.inheritsFrom ? '<li class="inherited">' + xlsL(p.inheritsFrom.label) + '</li>' : "";
+      var buyUrl = xlsChariowUrl(p);
+      var ownLis = xlsL(p.highlights).map(function(d){ return "<li>" + d + "</li>"; }).join("");
 
-    card.innerHTML =
-      '<div class="pack-progress"><div class="pack-progress-fill" style="width:' + p.progress + '%"></div></div>' +
-      '<div class="pack-price-badge">Dès ' + xlsFmtFCFA(p.plans.unique.amount) + '<small>' + p.brand + '</small></div>' +
-      '<div class="pack-header">' +
-        '<div class="pack-label">' + p.packLabel + '</div>' +
-        '<div class="pack-name">' + p.brand + '</div>' +
-        '<div class="pack-tagline">' + p.tagline + '</div>' +
-      '</div>' +
-      '<ul class="pack-deliverables">' + inheritedLi + divider + ownLis + '</ul>' +
-      '<div class="pack-plans">' +
-        (p.standaloneFormUrl
-          ? '<a class="plan-btn unique" style="width:100%" href="' + p.standaloneFormUrl + '">' +
-              '<span class="plan-btn-label">Ouvrir le formulaire</span><span class="plan-btn-amount">→</span>' +
-            '</a>'
-          : '<a class="plan-btn unique" href="commande.html?pack=' + p.id + '&plan=unique">' +
-              '<span class="plan-btn-label">Exécution unique</span><span class="plan-btn-amount">' + xlsFmtFCFA(p.plans.unique.amount) + '</span>' +
-            '</a>' +
-            '<a class="plan-btn abonnement" href="commande.html?pack=' + p.id + '&plan=abonnement">' +
-              '<span class="plan-btn-label">Abonnement</span><span class="plan-btn-amount">' + xlsFmtFCFA(p.plans.abonnement.amount) + '</span>' +
-            '</a>' +
-            '<p class="plan-note"><strong>Abonnement</strong> = ' + p.plans.abonnement.credits + ' créations/corrections sur ' + p.plans.abonnement.days + ' jours, avec clé d’accès.</p>') +
-      '</div>';
+      card.innerHTML =
+        '<div class="pack-progress"><div class="pack-progress-fill" style="width:' + p.progress + '%"></div></div>' +
+        '<div class="pack-price-badge">' + xlsT("price_from") + ' ' + xlsFmtFCFA(p.plans.unique.amount) + '</div>' +
+        '<div class="pack-header">' +
+          '<div class="pack-label">' + xlsL(p.packLabel) + '</div>' +
+          '<div class="pack-name">' + p.brand + '</div>' +
+          '<div class="pack-tagline">' + xlsL(p.tagline) + '</div>' +
+        '</div>' +
+        '<ul class="pack-deliverables">' + inheritedLi + ownLis + '</ul>' +
+        '<div class="pack-plans">' +
+          (buyUrl
+            ? '<a class="plan-btn unique" href="' + buyUrl + '" target="_blank" rel="noopener">' +
+                '<span class="plan-btn-label">' + xlsT("buy_chariow") + '</span><span class="plan-btn-amount">↗</span>' +
+              '</a>'
+            : '<a class="plan-btn unique soon" href="mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent(p.brand) + '">' +
+                '<span class="plan-btn-label">' + xlsT("buy_soon") + '</span><span class="plan-btn-amount">✉</span>' +
+              '</a>') +
+          '<a class="plan-btn abonnement" href="' + xlsFormUrl(p) + '">' +
+            '<span class="plan-btn-label">' + xlsT("open_form") + '</span><span class="plan-btn-amount">→</span>' +
+          '</a>' +
+          '<p class="plan-note">' + xlsT("plan_note") + '</p>' +
+        '</div>';
 
-    grid.appendChild(card);
-  });
+      grid.appendChild(card);
+    });
+  }
+
+  xlsInitLangSwitch(renderPacks);
+  renderPacks();
 })();
 </script>
 </body>

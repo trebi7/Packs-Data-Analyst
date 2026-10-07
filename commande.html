@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Commande — XLSForm Pro</title>
+<title data-i18n="title_order">Commande — XLSForm Pro</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%8B%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -13,17 +13,24 @@
 
 <nav class="nav">
   <div class="container nav-inner">
-    <a href="index.html" class="nav-logo">📋 L'Analyse des données, de la conception des outils au rapport <span>Armand Davy TRE BI, Data Analyst</span></a>
-    <div class="nav-links">
-      <a href="mise-a-jour.html" class="nav-link">🔄 Mise à jour</a>
-      <a href="index.html#packs" class="nav-link">← Tous les packs</a>
+    <a href="index.html" class="nav-logo" data-i18n-html="nav_logo">📋 L'Analyse des données, de la conception des outils au rapport <span>Armand Davy TRE BI, Data Analyst</span></a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="activer.html" class="nav-link" data-i18n="nav_activate">🔑 Ma clé</a>
+        <a href="mise-a-jour.html" class="nav-link" data-i18n="nav_update">🔄 Mise à jour</a>
+        <a href="index.html#packs" class="nav-link" data-i18n="nav_all_packs">← Tous les packs</a>
+      </div>
+      <div class="lang-switch" role="group" aria-label="Langue / Language">
+        <button type="button" class="lang-btn" data-lang="fr">FR</button>
+        <button type="button" class="lang-btn" data-lang="en">EN</button>
+      </div>
     </div>
   </div>
 </nav>
 
 <section class="page-header">
   <div class="container">
-    <a href="index.html#packs" class="page-crumb">&larr; retour aux packs</a>
+    <a href="index.html#packs" class="page-crumb" data-i18n="crumb_back">&larr; retour aux packs</a>
     <h1 id="ph-title">Commande</h1>
     <p id="ph-sub">Chargement du pack sélectionné…</p>
   </div>
@@ -32,21 +39,16 @@
 <section class="container order-layout" id="order-layout" style="display:none;">
 
   <div class="card">
-    <div class="field-title" id="form-title">Vos informations</div>
+    <div class="field-title" id="form-title" data-i18n="form_title">Vos informations</div>
     <div class="field-title-sub" id="form-sub">Renseignez votre projet et joignez votre questionnaire.</div>
-
-    <div class="notice" id="chariow-notice" style="display:none;">
-      <strong>Paiement Chariow — bientôt en ligne.</strong> Le lien de paiement direct pour ce pack est en cours de configuration. Envoyez tout de même votre commande ci-dessous : elle sera traitée dès réception de votre paiement, à régler auprès d'Armand par email ou WhatsApp.
-    </div>
 
     <form class="order-form" id="order-form"></form>
 
     <div class="order-result" id="order-result">
-      <div class="sending"><span class="spinner"></span><span>Envoi de votre questionnaire en cours…</span></div>
+      <div class="sending"><span class="spinner"></span><span data-i18n="order_sending">Envoi de votre questionnaire en cours…</span></div>
       <div class="result-body" style="display:none;">
-        <h3 id="result-title">Commande envoyée</h3>
+        <h3 id="result-title" data-i18n="order_sent">Commande envoyée</h3>
         <p id="result-text"></p>
-        <div id="result-key"></div>
       </div>
     </div>
   </div>
@@ -62,6 +64,7 @@
 
 <iframe name="silent-target" title="Envoi du formulaire" style="position:absolute; width:1px; height:1px; opacity:0; pointer-events:none;"></iframe>
 
+<script src="assets/i18n.js"></script>
 <script src="assets/products.js"></script>
 <script>
 (function(){
@@ -69,62 +72,62 @@
 
   var params = new URLSearchParams(window.location.search);
   var product = xlsFindProduct(params.get("pack"));
-  var initialPlan = params.get("plan") === "abonnement" ? "abonnement" : "unique";
 
   var phTitle = document.getElementById("ph-title");
   var phSub = document.getElementById("ph-sub");
   var layout = document.getElementById("order-layout");
 
   if (!product){
-    phTitle.textContent = "Pack introuvable";
-    phSub.textContent = "Le pack demandé n'existe pas. Retournez à la liste des packs pour en choisir un.";
+    var renderNotFound = function(){
+      document.title = xlsT("title_order");
+      phTitle.textContent = xlsT("pack_not_found");
+      phSub.textContent = xlsT("pack_not_found_sub");
+    };
+    xlsInitLangSwitch(renderNotFound);
+    renderNotFound();
     return;
   }
 
-  document.title = product.brand + " — Commande — XLSForm Pro";
-  phTitle.textContent = product.brand;
-  phSub.textContent = product.tagline;
   layout.style.display = "grid";
+  var lastResult = null;      /* état du message de confirmation, pour le retraduire */
+  var fileState = null;       /* état du message du champ fichier, pour le retraduire */
 
-  document.getElementById("form-sub").textContent =
-    "Renseignez votre projet et joignez votre questionnaire — traitement " + product.duration + ".";
+  /* ---------- en-tête de page ---------- */
+  function renderHeader(){
+    document.title = xlsT("title_order_pack", { b: product.brand });
+    phTitle.textContent = product.brand;
+    phSub.textContent = xlsL(product.tagline);
+    document.getElementById("form-sub").textContent = xlsT("form_sub", { d: xlsL(product.duration) });
+  }
 
-  var currentPlan = initialPlan;
-
-  /* ---------- summary sidebar ---------- */
+  /* ---------- récapitulatif (colonne de droite) ---------- */
   var summaryEl = document.getElementById("summary-card");
   function renderSummary(){
-    var plan = product.plans[currentPlan];
-    var deliverablesHtml = product.deliverables.map(function(d){ return "<li>" + d + "</li>"; }).join("");
-    summaryEl.innerHTML =
-      '<div class="summary-brand">' + product.packLabel + ' · ' + product.tag + '</div>' +
-      '<div class="summary-name">' + product.brand + '</div>' +
-      '<div class="summary-tagline">' + product.desc + '</div>' +
-      '<ul class="summary-deliverables">' + deliverablesHtml + '</ul>' +
-      '<div class="plan-toggle">' +
-        '<button type="button" class="plan-tab unique' + (currentPlan === "unique" ? " active unique" : "") + '" data-plan="unique">Unique</button>' +
-        '<button type="button" class="plan-tab abonnement' + (currentPlan === "abonnement" ? " active abonnement" : "") + '" data-plan="abonnement">Abonnement</button>' +
-      '</div>' +
-      '<div class="plan-summary' + (currentPlan === "abonnement" ? " abonnement" : "") + '">' +
-        '<span class="amt">' + xlsFmtFCFA(plan.amount) + '</span>' + plan.detail +
-      '</div>' +
-      '<div class="pay-box">' +
-        '<div class="pay-label">Paiement</div>' +
-        '<button type="button" class="pay-btn" disabled>🔒 Payer sur Chariow — lien à venir</button>' +
-        '<p class="pay-note">Le paiement en ligne sera bientôt disponible pour ' + product.brand + '. En attendant, réglez directement auprès d’Armand après avoir envoyé votre commande.</p>' +
+    var deliverablesHtml = xlsL(product.deliverables).map(function(d){ return "<li>" + d + "</li>"; }).join("");
+    var buyUrl = xlsChariowUrl(product);
+    var plansHtml = ["unique", "abonnement"].map(function(k){
+      var plan = product.plans[k];
+      return '<div class="plan-summary' + (k === "abonnement" ? " abonnement" : "") + '">' +
+        '<span class="amt">' + xlsL(plan.label) + ' · ' + xlsFmtFCFA(plan.amount) + '</span>' + xlsL(plan.detail) +
       '</div>';
-
-    Array.prototype.forEach.call(summaryEl.querySelectorAll(".plan-tab"), function(btn){
-      btn.addEventListener("click", function(){
-        currentPlan = btn.getAttribute("data-plan");
-        renderSummary();
-        updateFormForPlan();
-      });
-    });
+    }).join("");
+    summaryEl.innerHTML =
+      '<div class="summary-brand">' + xlsL(product.packLabel) + ' · ' + product.tag + '</div>' +
+      '<div class="summary-name">' + product.brand + '</div>' +
+      '<div class="summary-tagline">' + xlsL(product.desc) + '</div>' +
+      '<ul class="summary-deliverables">' + deliverablesHtml + '</ul>' +
+      plansHtml +
+      '<div class="pay-box">' +
+        '<div class="pay-label">' + xlsT("pay_label") + '</div>' +
+        (buyUrl
+          ? '<a class="pay-btn live" href="' + buyUrl + '" target="_blank" rel="noopener">' + xlsT("pay_btn", { b: product.brand }) + ' ↗</a>' +
+            '<p class="pay-note">' + xlsT("pay_note") + '</p>'
+          : '<p class="pay-note">' + xlsT("pay_soon", { b: product.brand, e: CONTACT_EMAIL }) + '</p>') +
+        '<a class="activate-link" href="activer.html">' + xlsT("activate_link") + '</a>' +
+      '</div>';
   }
-  renderSummary();
 
-  /* ---------- form ---------- */
+  /* ---------- formulaire ---------- */
   var form = document.getElementById("order-form");
   form.method = "POST";
   form.enctype = "multipart/form-data";
@@ -135,100 +138,113 @@
   grid.className = "field-grid";
   form.appendChild(grid);
 
-  function field(labelText, inputHtml, span2, hint){
+  /* Les libellés portent data-i18n : ils sont retraduits sans reconstruire les champs */
+  function field(labelKey, required, inputHtml, span2, hintKey){
     var wrap = document.createElement("div");
     wrap.className = "field" + (span2 ? " span-2" : "");
-    wrap.innerHTML = '<label>' + labelText + '</label>' + inputHtml + (hint ? '<span class="hint">' + hint + '</span>' : "");
+    wrap.innerHTML =
+      '<label><span data-i18n="' + labelKey + '">' + xlsT(labelKey) + '</span>' + (required ? ' <span class="req">*</span>' : '') + '</label>' +
+      inputHtml +
+      (hintKey ? '<span class="hint" data-i18n="' + hintKey + '">' + xlsT(hintKey) + '</span>' : "");
     grid.appendChild(wrap);
     return wrap;
   }
 
   var uid = product.id;
 
-  field('Nom du projet <span class="req">*</span>',
-    '<input type="text" name="nom_projet" id="np-' + uid + '" required autocomplete="off">');
+  field("f_project", true, '<input type="text" name="nom_projet" id="np-' + uid + '" required autocomplete="off">');
+  field("f_email", true, '<input type="email" name="email_notification" id="em-' + uid + '" required autocomplete="email">', false, "f_email_hint");
+  field("f_key", true, '<input type="text" name="cle_abonnement" id="key-' + uid + '" required autocomplete="off" spellcheck="false" style="text-transform:uppercase;" data-i18n-placeholder="ph_key" placeholder="' + xlsT("ph_key") + '">', false, "f_key_hint");
 
-  field('Email de notification <span class="req">*</span>',
-    '<input type="email" name="email_notification" id="em-' + uid + '" required autocomplete="email">',
-    false, "Vos livrables — et votre clé d’abonnement le cas échéant — y seront envoyés.");
-
+  var typeSelect = null;
   if (product.fields === "extended"){
-    field('Sujet / objectif de l’étude <span class="req">*</span>',
-      '<input type="text" name="sujet_etude" id="su-' + uid + '" required>');
+    field("f_subject", true, '<input type="text" name="sujet_etude" id="su-' + uid + '" required>');
+    field("f_domain", true, '<input type="text" name="domaine" id="do-' + uid + '" required data-i18n-placeholder="ph_domain" placeholder="' + xlsT("ph_domain") + '">');
 
-    field('Domaine / secteur <span class="req">*</span>',
-      '<input type="text" name="domaine" id="do-' + uid + '" required placeholder="santé, éducation, agriculture…">');
+    var typeWrap = field("f_type", true, '<select name="type_etude" id="te-' + uid + '" required></select>');
+    typeSelect = typeWrap.querySelector("select");
 
-    var typeOptions = TYPE_ETUDE.map(function(t){ return '<option value="' + t[0] + '">' + t[1] + '</option>'; }).join("");
-    var typeWrap = field('Type d’étude <span class="req">*</span>',
-      '<select name="type_etude" id="te-' + uid + '" required><option value="" selected disabled>Choisir…</option>' + typeOptions + '</select>');
-
-    var autreWrap = field('Précisez le type d’étude', '<input type="text" name="type_etude_autre" id="tea-' + uid + '">');
+    var autreWrap = field("f_type_other", false, '<input type="text" name="type_etude_autre" id="tea-' + uid + '">');
     autreWrap.style.display = "none";
-    typeWrap.querySelector("select").addEventListener("change", function(e){
+    typeSelect.addEventListener("change", function(e){
       autreWrap.style.display = e.target.value === "autre" ? "" : "none";
     });
 
-    field('Format du XLSForm',
+    field("f_format", false,
       '<div class="radio-row">' +
       '<label class="radio-opt"><input type="radio" name="format_xlsform" value="kobo" checked> KoboToolbox / ODK</label>' +
       '<label class="radio-opt"><input type="radio" name="format_xlsform" value="surveycto"> SurveyCTO</label>' +
       '</div>');
   }
 
-  field('Langue des livrables',
+  /* Options du type d'étude : la valeur envoyée ne change pas, seul le libellé est traduit */
+  function renderTypeOptions(){
+    if (!typeSelect) return;
+    var selected = typeSelect.value;
+    typeSelect.innerHTML = '<option value="" disabled' + (selected ? '' : ' selected') + '>' + xlsT("choose") + '</option>' +
+      TYPE_ETUDE.map(function(t){
+        return '<option value="' + t[0] + '"' + (t[0] === selected ? ' selected' : '') + '>' + (XLS_LANG === "en" ? t[2] : t[1]) + '</option>';
+      }).join("");
+  }
+  renderTypeOptions();
+
+  /* Langue des livrables : par défaut, celle de la page */
+  field("f_lang", false,
     '<div class="radio-row">' +
-    '<label class="radio-opt"><input type="radio" name="language" value="fr" checked> Français</label>' +
-    '<label class="radio-opt"><input type="radio" name="language" value="en"> English</label>' +
+    '<label class="radio-opt"><input type="radio" name="language" value="fr"' + (XLS_LANG === "fr" ? " checked" : "") + '> Français</label>' +
+    '<label class="radio-opt"><input type="radio" name="language" value="en"' + (XLS_LANG === "en" ? " checked" : "") + '> English</label>' +
     '</div>');
 
   var acceptedFormats = product.formats || [".pdf", ".docx", ".xlsx"];
   var acceptExts = acceptedFormats.map(function(f){ return f.replace(".", "").toLowerCase(); });
   var formatsLabel = acceptedFormats.join(", ");
-  var defaultFileHint = "Formats acceptés : " + formatsLabel + " — 25 Mo maximum.";
 
   var fileWrap = document.createElement("div");
   fileWrap.className = "field span-2";
   fileWrap.innerHTML =
-    '<label>Questionnaire à convertir <span class="req">*</span></label>' +
+    '<label><span data-i18n="f_file">' + xlsT("f_file") + '</span> <span class="req">*</span></label>' +
     '<div class="file-drop">' +
     '<input type="file" name="questionnaire_file" id="file-' + uid + '" accept="' + acceptedFormats.join(",") + '" required>' +
-    '<span class="file-status" id="file-status-' + uid + '">' + defaultFileHint + '</span>' +
+    '<span class="file-status" id="file-status-' + uid + '"></span>' +
     '</div>';
   grid.appendChild(fileWrap);
 
   var fileInput = fileWrap.querySelector("input[type=file]");
   var fileStatus = document.getElementById("file-status-" + uid);
+
+  function renderFileStatus(){
+    if (!fileState){
+      fileStatus.textContent = xlsT("file_hint", { f: formatsLabel });
+      fileStatus.className = "file-status";
+      return;
+    }
+    fileStatus.textContent = xlsT(fileState.key, fileState.vars);
+    fileStatus.className = "file-status " + fileState.cls;
+  }
+
   fileInput.addEventListener("change", function(){
     var f = fileInput.files[0];
-    if (!f){ fileStatus.textContent = defaultFileHint; fileStatus.className = "file-status"; return; }
+    if (!f){ fileState = null; renderFileStatus(); return; }
     var ext = f.name.split(".").pop().toLowerCase();
-    var okExt = acceptExts.indexOf(ext) !== -1;
-    var okSize = f.size <= 25 * 1024 * 1024;
-    if (!okExt){
-      fileStatus.textContent = "Format ." + ext + " non pris en charge. Utilisez " + formatsLabel + ".";
-      fileStatus.className = "file-status err";
+    var size = (f.size / 1024 / 1024).toFixed(1);
+    if (acceptExts.indexOf(ext) === -1){
+      fileState = { key: "file_bad_ext", vars: { e: ext, f: formatsLabel }, cls: "err" };
       fileInput.value = "";
-    } else if (!okSize){
-      fileStatus.textContent = "Fichier trop volumineux (" + (f.size/1024/1024).toFixed(1) + " Mo). 25 Mo maximum.";
-      fileStatus.className = "file-status err";
+    } else if (f.size > 25 * 1024 * 1024){
+      fileState = { key: "file_too_big", vars: { s: size }, cls: "err" };
       fileInput.value = "";
     } else {
-      fileStatus.textContent = f.name + " — " + (f.size/1024/1024).toFixed(1) + " Mo. Fichier prêt.";
-      fileStatus.className = "file-status ok";
+      fileState = { key: "file_ok", vars: { n: f.name, s: size }, cls: "ok" };
     }
+    renderFileStatus();
   });
-
-  var keyBoxWrap = document.createElement("div");
-  keyBoxWrap.className = "field span-2";
-  keyBoxWrap.id = "key-info-" + uid;
-  grid.appendChild(keyBoxWrap);
+  renderFileStatus();
 
   var notesWrap = document.createElement("div");
   notesWrap.className = "field span-2";
   notesWrap.innerHTML =
-    '<label>Observations</label>' +
-    '<textarea id="notes-' + uid + '" placeholder="Toute précision utile pour votre commande (délai souhaité, particularités du questionnaire…)."></textarea>';
+    '<label data-i18n="f_notes">' + xlsT("f_notes") + '</label>' +
+    '<textarea id="notes-' + uid + '" data-i18n-placeholder="ph_notes" placeholder="' + xlsT("ph_notes") + '"></textarea>';
   grid.appendChild(notesWrap);
   var notesInput = notesWrap.querySelector("textarea");
 
@@ -242,89 +258,98 @@
   var submitBtn = document.createElement("button");
   submitBtn.type = "submit";
   submitBtn.className = "submit-btn";
-  var totalLabel = document.createElement("span");
-  totalLabel.className = "submit-total";
   submitRow.appendChild(submitBtn);
-  submitRow.appendChild(totalLabel);
   form.appendChild(submitRow);
 
-  function updateFormForPlan(){
-    var plan = product.plans[currentPlan];
-    submitBtn.className = "submit-btn" + (currentPlan === "abonnement" ? " abonnement" : "");
-    submitBtn.textContent = currentPlan === "abonnement" ? "Envoyer ma commande — Abonnement" : "Envoyer ma commande";
-    totalLabel.innerHTML = 'Total — <strong>' + xlsFmtFCFA(plan.amount) + '</strong>';
-    if (currentPlan === "abonnement"){
-      keyBoxWrap.innerHTML =
-        '<div class="key-box">🔑 Une <strong>clé d’abonnement</strong> vous sera attribuée à l’envoi de cette commande. Conservez-la avec l’email utilisé ici : les deux vous seront redemandés sur la page <em>Mise à jour</em> pour vos ' + plan.credits + ' prochaines créations ou corrections, valables ' + plan.days + ' jours.</div>';
-    } else {
-      keyBoxWrap.innerHTML = "";
-    }
+  var sending = false;
+  function renderSubmit(){
+    if (!sending) submitBtn.textContent = xlsT("submit");
   }
-  updateFormForPlan();
 
+  /* ---------- envoi ---------- */
   var resultBox = document.getElementById("order-result");
   var resultTitle = document.getElementById("result-title");
   var resultText = document.getElementById("result-text");
-  var resultKey = document.getElementById("result-key");
 
-  form.addEventListener("submit", function(){
-    var plan = product.plans[currentPlan];
-    var isSub = currentPlan === "abonnement";
-    var key = isSub ? xlsGenerateKey(product.id) : null;
+  function renderResult(){
+    if (!lastResult) return;
+    var r = lastResult;
+    if (r.ok){
+      resultTitle.textContent = xlsT("order_sent");
+      resultText.textContent = xlsT("res_ok_text", { e: CONTACT_EMAIL }) +
+        (typeof r.credits === "number" ? xlsT("credits_left", { n: Math.max(0, r.credits - 1) }) : "");
+    } else {
+      resultTitle.textContent = xlsT("order_ko_title");
+      resultText.textContent = r.messageKey ? xlsT(r.messageKey) : (r.message || xlsT("ko_text"));
+    }
+  }
+
+  /* Le crédit n'est retiré qu'au moment de la génération, côté serveur.
+     Ici, on vérifie seulement que l'email et la clé ouvrent bien ce pack
+     (mode "check") avant d'envoyer le fichier. */
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    var keyInput = document.getElementById("key-" + uid);
+    keyInput.value = keyInput.value.trim().toUpperCase();
     var emailValue = document.getElementById("em-" + uid).value.trim();
-    var nomProjetValue = document.getElementById("np-" + uid).value.trim();
 
-    var prefix = "Formule : " + plan.label + " (" + xlsFmtFCFA(plan.amount) + ") — " + plan.detail;
-    if (isSub) prefix += "\nClé d'abonnement attribuée : " + key;
+    /* Note interne pour l'opérateur : toujours en français */
+    var prefix = "Langue de l'interface : " + XLS_LANG.toUpperCase();
     var notes = notesInput.value.trim();
     obsHidden.value = notes ? prefix + "\n\nNotes du client : " + notes : prefix;
 
+    sending = true;
     submitBtn.disabled = true;
-    submitBtn.textContent = "Envoi en cours…";
+    submitBtn.textContent = xlsT("checking");
+    resultBox.classList.remove("reject");
     resultBox.classList.add("show");
-    if (isSub) resultBox.classList.add("key-issued");
+    resultBox.querySelector(".sending").style.display = "";
+    resultBox.querySelector(".result-body").style.display = "none";
     resultBox.scrollIntoView({behavior:"smooth", block:"center"});
 
-    /* Le fichier part par POST classique (iframe cachée) vers le générateur —
-       inchangé. En parallèle, pour un abonnement, on enregistre réellement la
-       clé côté serveur (n8n Data Table) via un appel fetch() dont on attend
-       la vraie réponse avant d'afficher la confirmation au client. */
-    var registerPromise = isSub
-      ? fetch(WEBHOOK_BASE + "abonnement-emission", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            produit: product.id,
-            email_notification: emailValue,
-            cle_abonnement: key,
-            nom_projet: nomProjetValue
-          })
-        }).then(function(r){
-          return r.json().catch(function(){ return { ok: r.ok }; });
-        }).catch(function(){
-          return { ok: false, message: "Impossible de joindre le serveur d'enregistrement." };
-        })
-      : Promise.resolve({ ok: true });
-
-    registerPromise.then(function(registerResult){
-      window.setTimeout(function(){
-        resultBox.querySelector(".sending").style.display = "none";
-        resultBox.querySelector(".result-body").style.display = "";
-
-        if (isSub && registerResult && registerResult.ok === false){
-          resultTitle.textContent = "Commande envoyée — clé à confirmer";
-          resultText.textContent = "Votre questionnaire a bien été transmis, mais l'enregistrement automatique de votre clé d'abonnement a échoué (" + (registerResult.message || "erreur inconnue") + "). Conservez la clé ci-dessous et écrivez à " + CONTACT_EMAIL + " avec votre email de commande pour que votre abonnement soit activé manuellement.";
-        } else {
-          resultTitle.textContent = isSub ? "Commande envoyée — abonnement activé" : "Commande envoyée";
-          resultText.textContent = "Merci ! Votre questionnaire a bien été transmis. Vous recevrez vos livrables par email, généralement en quelques minutes. En cas de doute, écrivez à " + CONTACT_EMAIL + ".";
-        }
-
-        resultKey.innerHTML = isSub
-          ? '<p>Votre clé d’abonnement :</p><span class="key-display">' + key + '</span><p style="margin-top:10px;">Notez-la avec l’email <strong>' + (emailValue || "utilisé ici") + '</strong> — les deux vous seront redemandés sur la page Mise à jour.</p>'
-          : "";
-      }, isSub ? 200 : 1600);
+    fetch(WEBHOOK_BASE + "abonnement-verification", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        produit: product.id,
+        email_notification: emailValue,
+        cle_abonnement: keyInput.value,
+        mode: "check",
+        ui_lang: XLS_LANG
+      })
+    }).then(function(r){
+      return r.json().catch(function(){ return { ok: false, messageKey: "verif_unreadable" }; });
+    }).catch(function(){
+      return { ok: false, messageKey: "verif_unreachable" };
+    }).then(function(v){
+      resultBox.querySelector(".sending").style.display = "none";
+      resultBox.querySelector(".result-body").style.display = "";
+      if (v && v.ok){
+        submitBtn.textContent = xlsT("sending_btn");
+        form.submit();   /* POST multipart vers le générateur, dans l'iframe cachée */
+        lastResult = { ok: true, credits: v.credits_restants };
+      } else {
+        sending = false;
+        submitBtn.disabled = false;
+        renderSubmit();
+        resultBox.classList.add("reject");
+        lastResult = { ok: false, message: v && v.message, messageKey: v && v.messageKey };
+      }
+      renderResult();
     });
   });
+
+  /* ---------- langue ---------- */
+  function renderAll(){
+    renderHeader();
+    renderSummary();
+    renderTypeOptions();
+    renderFileStatus();
+    renderSubmit();
+    renderResult();
+  }
+  xlsInitLangSwitch(renderAll);
+  renderAll();
 
 })();
 </script>

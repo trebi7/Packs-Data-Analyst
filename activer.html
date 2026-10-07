@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n="title_activate">Recevoir ma clé — XLSForm Pro</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%91%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo" data-i18n-html="nav_logo">📋 L'Analyse des données, de la conception des outils au rapport <span>Armand Davy TRE BI, Data Analyst</span></a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="mise-a-jour.html" class="nav-link" data-i18n="nav_update">🔄 Mise à jour</a>
+        <a href="index.html#packs" class="nav-link" data-i18n="nav_all_packs">← Tous les packs</a>
+      </div>
+      <div class="lang-switch" role="group" aria-label="Langue / Language">
+        <button type="button" class="lang-btn" data-lang="fr">FR</button>
+        <button type="button" class="lang-btn" data-lang="en">EN</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<section class="page-header">
+  <div class="container">
+    <a href="index.html#packs" class="page-crumb" data-i18n="crumb_back">&larr; retour aux packs</a>
+    <h1 data-i18n="act_h1">🔑 Recevoir ma clé d’accès</h1>
+    <p data-i18n="act_intro">Vous avez payé un pack sur Chariow ? Saisissez l’email utilisé pour le paiement : nous retrouvons votre achat et vous envoyons votre clé par email.</p>
+  </div>
+</section>
+
+<section class="container order-layout">
+
+  <div class="card">
+    <div class="field-title" data-i18n="act_form_title">Email du paiement</div>
+    <div class="field-title-sub" data-i18n="act_form_sub">Le même email que sur Chariow. Les achats des 30 derniers jours sont pris en compte.</div>
+
+    <form class="order-form" id="act-form" novalidate>
+      <div class="field-grid">
+        <div class="field span-2">
+          <label><span data-i18n="act_email">Email utilisé sur Chariow</span> <span class="req">*</span></label>
+          <input type="email" id="em" required autocomplete="email">
+        </div>
+      </div>
+      <div class="submit-row">
+        <button type="submit" class="submit-btn abonnement" id="submit-btn" data-i18n="act_submit">Recevoir ma clé</button>
+      </div>
+    </form>
+
+    <div class="order-result" id="order-result">
+      <div class="sending"><span class="spinner"></span><span data-i18n="act_sending">Recherche de votre paiement…</span></div>
+      <div class="result-body" style="display:none;">
+        <h3 id="result-title"></h3>
+        <p id="result-text"></p>
+        <p id="result-next"></p>
+      </div>
+    </div>
+  </div>
+
+  <aside class="card summary-card">
+    <div class="summary-brand" data-i18n="aside_brand">Rappel</div>
+    <div class="summary-name" style="font-size:1.05rem;" data-i18n="aside_title">Comment ça marche</div>
+    <ul class="summary-deliverables">
+      <li data-i18n="act_aside_1">Une clé par pack acheté, envoyée à l’email du paiement</li>
+      <li data-i18n="act_aside_2">Formule unique : 1 génération. Abonnement : 10 créations ou corrections</li>
+      <li data-i18n="act_aside_3">Valable 30 jours à partir de la date d’achat</li>
+      <li data-i18n="act_aside_4">Vous pouvez redemander votre clé à tout moment : c’est toujours la même</li>
+    </ul>
+  </aside>
+
+</section>
+
+<footer class="footer">
+  <p><strong>Irié Armand Davy TRE BI</strong> — Digital Health &amp; Data Analyst · Jhpiego/RISE · Abidjan, Côte d'Ivoire</p>
+  <p style="margin-top:6px">armanddavy7@gmail.com · <a href="https://linkedin.com/in/tre-bi" style="color:var(--orange)">LinkedIn</a> · <a href="https://github.com/trebi7" style="color:var(--orange)">GitHub</a></p>
+</footer>
+
+<script src="assets/i18n.js"></script>
+<script src="assets/products.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  var form = document.getElementById("act-form");
+  var emailInput = document.getElementById("em");
+  var submitBtn = document.getElementById("submit-btn");
+  var resultBox = document.getElementById("order-result");
+  var resultTitle = document.getElementById("result-title");
+  var resultText = document.getElementById("result-text");
+  var resultNext = document.getElementById("result-next");
+  var lastResult = null;
+  var busy = false;
+
+  /* L'email peut arriver pré-rempli depuis le message Chariow (?email=...) */
+  var params = new URLSearchParams(window.location.search);
+  if (params.get("email")) emailInput.value = params.get("email");
+
+  function renderResult(){
+    if (!lastResult) return;
+    var r = lastResult;
+    resultTitle.textContent = xlsT(r.ok ? "act_ok_title" : "act_ko_title");
+    resultText.textContent = r.messageKey ? xlsT(r.messageKey, { e: CONTACT_EMAIL })
+      : (r.message || xlsT("act_ko_default", { e: CONTACT_EMAIL }));
+    resultNext.textContent = r.ok ? xlsT("act_next") : "";
+  }
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    if (busy) return;
+    var email = emailInput.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ emailInput.focus(); return; }
+
+    busy = true;
+    submitBtn.disabled = true;
+    resultBox.classList.remove("reject");
+    resultBox.classList.add("show");
+    resultBox.querySelector(".sending").style.display = "";
+    resultBox.querySelector(".result-body").style.display = "none";
+
+    fetch(WEBHOOK_BASE + ACTIVATION_PATH, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: email, ui_lang: XLS_LANG })
+    }).then(function(r){
+      return r.json().catch(function(){ return { success: false, messageKey: "act_unreachable" }; });
+    }).catch(function(){
+      return { success: false, messageKey: "act_unreachable" };
+    }).then(function(res){
+      busy = false;
+      submitBtn.disabled = false;
+      resultBox.querySelector(".sending").style.display = "none";
+      resultBox.querySelector(".result-body").style.display = "";
+      var ok = !!(res && res.success);
+      if (!ok) resultBox.classList.add("reject");
+      lastResult = { ok: ok, message: res && res.message, messageKey: res && res.messageKey };
+      renderResult();
+    });
+  });
+
+  xlsInitLangSwitch(renderResult);
+})();
+</script>
+</body>
+</html>
