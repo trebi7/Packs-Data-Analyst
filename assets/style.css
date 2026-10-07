@@ -232,3 +232,49 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--b
 @media (max-width: 1100px) { .packs-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 760px)  { .packs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 640px)  { .packs-grid { grid-template-columns: 1fr; } }
+
+/* ===== Sélecteur de langue FR / EN (même rendu que les autres formulaires) ===== */
+.nav-right { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.lang-switch { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,.12); border-radius: 30px; padding: 4px; flex-shrink: 0; }
+.lang-btn { border: none; background: none; color: rgba(255,255,255,.75); font-size: .8rem; font-weight: 700; padding: 6px 14px; border-radius: 24px; cursor: pointer; font-family: inherit; letter-spacing: .4px; transition: background var(--transition), color var(--transition); }
+.lang-btn:hover { color: #fff; }
+.lang-btn.active { background: var(--blanc); color: var(--bleu); }
+.lang-btn:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+
+/* ===== Cartes de packs compactes : le bouton reste visible sans défiler ===== */
+.audience-intro { padding: 36px 0 0; }
+.packs-section { padding: 20px 0 56px; scroll-margin-top: 72px; }
+.packs-section .section-title { margin-bottom: 4px; }
+.packs-section .section-sub { margin-bottom: 18px; }
+.pack-card.popular::before { content: attr(data-popular); }
+.pack-price-badge { position: static; display: inline-block; align-self: flex-start; margin: 14px 18px 0; white-space: normal; padding: 4px 12px; }
+.pack-header { padding: 8px 18px 6px; }
+.pack-name { margin-bottom: 4px; }
+.pack-deliverables { padding: 4px 18px 10px; gap: 5px; }
+.pack-plans { padding: 2px 18px 16px; gap: 6px; }
+.plan-btn { padding: 9px 12px; }
+.update-cta { margin-top: 28px; padding: 20px; }
+.how { padding: 40px 0 56px; }
+.pack-card.popular .pack-price-badge { margin-top: 30px; }
+.audience-intro { padding: 22px 0 0; }
+.audience-intro .container { max-width: 1000px; }
+.audience-intro-text { font-size: clamp(.98rem, 1.5vw, 1.1rem); line-height: 1.5; }
+.packs-section { padding-top: 12px; }
+.packs-section .section-sub { margin-bottom: 14px; }
+.pack-card.popular::before { white-space: nowrap; font-size: .64rem; padding: 3px 12px; }
+.pack-card.popular .pack-price-badge { margin-top: 26px; }
+.pack-deliverables li { font-size: .8rem; line-height: 1.35; }
+.plan-btn { padding: 8px 10px; }
+.plan-btn .plan-btn-label, .plan-btn .plan-btn-amount { white-space: nowrap; }
+.plan-btn .plan-btn-label { font-size: .74rem; }
+.plan-btn .plan-btn-amount { font-size: .86rem; }
+@media (min-width: 761px) { .pack-card .plan-note { display: none; } }
+
+/* --- Paiement Chariow + clé d'accès --- */
+.update-cta a + a { margin-left: 10px; }
+@media (max-width: 560px) { .update-cta a { display: block; margin: 8px 0 0; } .update-cta a + a { margin-left: 0; } }
+.plan-btn.soon { opacity: .8; }
+.pay-btn.live { text-align: center; text-decoration: none; cursor: pointer; opacity: 1; box-sizing: border-box; }
+.activate-link { display: inline-block; margin-top: 10px; font-size: .84rem; font-weight: 600; color: var(--violet-dark); text-decoration: none; }
+.activate-link:hover { text-decoration: underline; }
+.plan-summary + .plan-summary { margin-top: 8px; }
