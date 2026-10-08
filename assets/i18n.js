@@ -16,7 +16,7 @@ var XLS_LANG = (function(){
 var I18N = {
   fr: {
     /* --- commun --- */
-    nav_logo: '📋 L\'Analyse des données, de la conception des outils au rapport <span>Armand Davy TRE BI, Data Analyst</span>',
+    nav_logo: '📋 L\'Analyse des données, de la conception des outils au rapport',
     nav_see_packs: "Voir les packs →",
     nav_update: "🔄 Mise à jour",
     nav_all_packs: "← Tous les packs",
@@ -150,7 +150,7 @@ var I18N = {
 
   en: {
     /* --- common --- */
-    nav_logo: '📋 Data analysis, from tool design to final report <span>Armand Davy TRE BI, Data Analyst</span>',
+    nav_logo: '📋 Data analysis, from tool design to final report',
     nav_see_packs: "See the packs →",
     nav_update: "🔄 Update",
     nav_all_packs: "← All packs",
