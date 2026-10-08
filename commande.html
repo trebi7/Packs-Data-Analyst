@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=xlsOnTurnstile" async defer></script>
 </head>
 <body>
 
@@ -85,6 +86,13 @@
     };
     xlsInitLangSwitch(renderNotFound);
     renderNotFound();
+    return;
+  }
+
+  /* Les packs qui ont leur propre formulaire (Kobo, SurveyCTO, DataReady, FormR Stats)
+     ne passent pas par cette page : on redirige vers ce formulaire. */
+  if (product.standaloneFormUrl){
+    window.location.replace(product.standaloneFormUrl);
     return;
   }
 
@@ -261,6 +269,33 @@
   submitRow.appendChild(submitBtn);
   form.appendChild(submitRow);
 
+  /* ---------- contrôle anti-robot (Cloudflare Turnstile) ----------
+     Le widget est rendu dans le formulaire : il y ajoute le champ caché
+     "cf-turnstile-response", envoyé au générateur avec le fichier. */
+  var tsBox = document.createElement("div");
+  tsBox.className = "ts-box";
+  tsBox.style.margin = "4px 0 16px";
+  form.insertBefore(tsBox, submitRow);
+  var tsToken = "";
+  function renderTurnstile(){
+    if (!window.turnstile || typeof window.turnstile.render !== "function" || tsBox.getAttribute("data-done")) return;
+    tsBox.setAttribute("data-done", "1");
+    window.turnstile.render(tsBox, {
+      sitekey: "0x4AAAAAAEam1E4e0eIB_z2U",
+      language: XLS_LANG,
+      callback: function(t){ tsToken = t || ""; },
+      "expired-callback": function(){ tsToken = ""; },
+      "error-callback": function(){ tsToken = ""; }
+    });
+  }
+  window.xlsOnTurnstile = renderTurnstile;
+  renderTurnstile();
+  function turnstileToken(){
+    if (tsToken) return tsToken;
+    var champ = form.querySelector('input[name="cf-turnstile-response"]');
+    return champ ? champ.value : "";
+  }
+
   var sending = false;
   function renderSubmit(){
     if (!sending) submitBtn.textContent = xlsT("submit");
@@ -292,6 +327,15 @@
     var keyInput = document.getElementById("key-" + uid);
     keyInput.value = keyInput.value.trim().toUpperCase();
     var emailValue = document.getElementById("em-" + uid).value.trim();
+
+    if (!turnstileToken()){
+      resultBox.classList.add("show", "reject");
+      resultBox.querySelector(".sending").style.display = "none";
+      resultBox.querySelector(".result-body").style.display = "";
+      lastResult = { ok: false, messageKey: window.turnstile ? "ts_missing" : "ts_unavailable" };
+      renderResult();
+      return;
+    }
 
     /* Note interne pour l'opérateur : toujours en français */
     var prefix = "Langue de l'interface : " + XLS_LANG.toUpperCase();

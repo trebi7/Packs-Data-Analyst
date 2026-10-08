@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=xlsOnTurnstile" async defer></script>
 </head>
 <body>
 
@@ -114,6 +115,8 @@
       <input type="hidden" name="observations" id="obs-hidden">
       <input type="hidden" name="language" id="lang-hidden" value="fr">
 
+      <div class="ts-box" id="ts-box" style="margin:4px 0 16px;"></div>
+
       <div class="submit-row">
         <button type="submit" class="submit-btn abonnement" id="submit-btn" disabled>Choisissez d’abord un pack</button>
       </div>
@@ -195,7 +198,10 @@
     currentProduct = xlsFindProduct(select.value);
     if (!currentProduct) return;
     form.action = WEBHOOK_BASE + currentProduct.webhookPath;
-    extendedWrap.style.display = currentProduct.fields === "extended" ? "" : "none";
+    var etendu = currentProduct.fields === "extended";
+    extendedWrap.style.display = etendu ? "" : "none";
+    /* Les générateurs DataReady, FormR Stats et FormR Premium exigent ces champs */
+    ["su", "do", "te"].forEach(function(id){ document.getElementById(id).required = etendu; });
     submitBtn.disabled = false;
     renderSubmit();
   });
@@ -236,6 +242,30 @@
     renderFileStatus();
   });
 
+  /* ---------- contrôle anti-robot (Cloudflare Turnstile) ----------
+     Les générateurs rejettent toute demande sans jeton valide. Le widget
+     ajoute le champ caché "cf-turnstile-response" dans ce formulaire. */
+  var tsBox = document.getElementById("ts-box");
+  var tsToken = "";
+  function renderTurnstile(){
+    if (!window.turnstile || typeof window.turnstile.render !== "function" || tsBox.getAttribute("data-done")) return;
+    tsBox.setAttribute("data-done", "1");
+    window.turnstile.render(tsBox, {
+      sitekey: "0x4AAAAAAEam1E4e0eIB_z2U",
+      language: XLS_LANG,
+      callback: function(t){ tsToken = t || ""; },
+      "expired-callback": function(){ tsToken = ""; },
+      "error-callback": function(){ tsToken = ""; }
+    });
+  }
+  window.xlsOnTurnstile = renderTurnstile;
+  renderTurnstile();
+  function turnstileToken(){
+    if (tsToken) return tsToken;
+    var champ = form.querySelector('input[name="cf-turnstile-response"]');
+    return champ ? champ.value : "";
+  }
+
   var obsHidden = document.getElementById("obs-hidden");
   var resultBox = document.getElementById("order-result");
   var resultTitle = document.getElementById("result-title");
@@ -264,6 +294,15 @@
     document.getElementById("key").value = key;
     var email = document.getElementById("em").value.trim();
     var notes = document.getElementById("notes").value.trim();
+
+    if (!turnstileToken()){
+      resultBox.classList.add("show", "reject");
+      resultBox.querySelector(".sending").style.display = "none";
+      resultBox.querySelector(".result-body").style.display = "";
+      lastResult = { ok: false, messageKey: window.turnstile ? "ts_missing" : "ts_unavailable" };
+      renderResult();
+      return;
+    }
     /* Note interne pour l'opérateur : toujours en français */
     obsHidden.value =
       "DEMANDE DE MISE A JOUR (abonnement)\n" +
