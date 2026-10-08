@@ -108,7 +108,7 @@
     var plansHtml = ["unique", "abonnement"].map(function(k){
       var plan = product.plans[k];
       return '<div class="plan-summary' + (k === "abonnement" ? " abonnement" : "") + '">' +
-        '<span class="amt">' + xlsL(plan.label) + ' · ' + xlsFmtFCFA(plan.amount) + '</span>' + xlsL(plan.detail) +
+        '<span class="amt">' + xlsL(plan.label) + ' · ' + xlsFmtPrice(plan) + '</span>' + xlsL(plan.detail) +
       '</div>';
     }).join("");
     summaryEl.innerHTML =

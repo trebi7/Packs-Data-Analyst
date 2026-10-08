@@ -102,7 +102,7 @@
 
       card.innerHTML =
         '<div class="pack-progress"><div class="pack-progress-fill" style="width:' + p.progress + '%"></div></div>' +
-        '<div class="pack-price-badge">' + xlsT("price_from") + ' ' + xlsFmtFCFA(p.plans.unique.amount) + '</div>' +
+        '<div class="pack-price-badge">' + xlsT("price_from") + ' ' + xlsFmtPrice(p.plans.unique) + '</div>' +
         '<div class="pack-header">' +
           '<div class="pack-label">' + xlsL(p.packLabel) + '</div>' +
           '<div class="pack-name">' + p.brand + '</div>' +
