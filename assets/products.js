@@ -243,46 +243,48 @@ var PRODUCTS = [
       en: "The complete package: from data collection to decision."
     },
     desc: {
-      fr: "Tout FormR Stats, plus un tableau de bord connecté à la structure de vos données.",
-      en: "Everything in FormR Stats, plus a dashboard connected to your data structure."
+      fr: "Tout FormR Stats, plus un tableau de bord interactif construit sur les variables de votre questionnaire.",
+      en: "Everything in FormR Stats, plus an interactive dashboard built on your questionnaire's variables."
     },
     webhookPath: "afac4eba-5ba6-4783-a7e6-9cc15dc05b8e",
     chariowProduct: "prd_h7cwryq1",
     fields: "extended",
     formats: [".docx", ".xlsx", ".pdf"],
     duration: {
-      fr: "communiqué après réception de votre questionnaire — le dashboard ajoute une étape de conception",
-      en: "confirmed once we receive your questionnaire, as the dashboard adds a design step"
+      fr: "en une dizaine de minutes après envoi",
+      en: "about 10 minutes after submission"
     },
     popular: false,
     progress: 100,
     inheritsFrom: { id: "scripts-r", label: { fr: "Tout FormR Stats", en: "Everything in FormR Stats" } },
     highlights: {
-      fr: ["Dashboard Power BI sur vos données", "Dashboard Shiny sur devis", "De la collecte à la décision"],
-      en: ["Power BI dashboard on your data", "Shiny dashboard on quote", "From collection to decision"]
+      fr: ["Dashboard HTML interactif", "S'ouvre dans un navigateur", "Power BI ou Shiny sur devis"],
+      en: ["Interactive HTML dashboard", "Opens in any browser", "Power BI or Shiny on quote"]
     },
     deliverables: {
       fr: [
-        "Dashboard Power BI connecté à la structure exacte de vos données",
-        "Dashboard Shiny — sur devis, délai convenu séparément",
-        "Formule complète : collecte, nettoyage, analyse et visualisation",
-        "Abonnement : corrections incluses, avec mise à jour du modèle de données"
+        "Dashboard HTML interactif bâti sur les variables réelles de votre questionnaire",
+        "Il s'ouvre dans un navigateur, sans logiciel ni compte à installer",
+        "Chargez votre export CSV ou Excel : indicateurs et graphiques se mettent à jour",
+        "Des données de démonstration permettent de le parcourir dès l'ouverture",
+        "Dashboard Power BI ou Shiny sur mesure : sur devis, délai convenu séparément"
       ],
       en: [
-        "Power BI dashboard connected to the exact structure of your data",
-        "Shiny dashboard on quote, with a separately agreed timeline",
-        "Complete package: collection, cleaning, analysis and visualisation",
-        "Subscription: corrections included, with data model updates"
+        "Interactive HTML dashboard built on your questionnaire's real variables",
+        "Opens in a web browser, with no software or account to install",
+        "Load your CSV or Excel export and the indicators and charts update",
+        "Demo data lets you explore it as soon as you open it",
+        "Custom Power BI or Shiny dashboard: on quote, with a separately agreed timeline"
       ]
     },
     plans: {
       unique: {
         label: { fr: "Exécution unique", en: "One-off run" }, amount: 15000, usd: 26,
-        detail: { fr: "Un XLSForm, son plan d'analyse, ses scripts R et son dashboard Power BI.", en: "One XLSForm with its analysis plan, R scripts and Power BI dashboard." }
+        detail: { fr: "Un XLSForm, son plan d'analyse, ses scripts R et son dashboard HTML interactif.", en: "One XLSForm with its analysis plan, R scripts and interactive HTML dashboard." }
       },
       abonnement: {
         label: { fr: "Abonnement", en: "Subscription" }, amount: 25000, usd: 43, credits: 10, days: 30,
-        detail: { fr: "10 créations ou corrections de formulaire, ou 10 corrections de script, avec correction du modèle de données selon les changements du questionnaire.", en: "10 form creations or corrections, or 10 script corrections, with data model updates as your questionnaire changes." }
+        detail: { fr: "10 créations ou corrections de formulaire, ou 10 corrections de script, avec un dashboard régénéré selon les changements du questionnaire.", en: "10 form creations or corrections, or 10 script corrections, with the dashboard regenerated as your questionnaire changes." }
       }
     }
   }
