@@ -94,7 +94,7 @@ var PRODUCTS = [
       en: "The same pipeline as KoboConvert, adapted to SurveyCTO: field options, constraints and platform-specific types."
     },
     webhookPath: "surveycto-questionnaire",
-    chariowProduct: null, /* CTOConvert : produit Chariow à créer, puis renseigner son id ici */
+    chariowProduct: "prd_ahooc9cb",
     standaloneFormUrl: "https://trebi7.github.io/Generateur-SurveyCTO_XLSForm-Automatique/",
     fields: "simple",
     formats: [".docx", ".xlsx", ".pdf"],
