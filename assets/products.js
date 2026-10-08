@@ -71,11 +71,11 @@ var PRODUCTS = [
     },
     plans: {
       unique: {
-        label: { fr: "Exécution unique", en: "One-off run" }, amount: 3000,
+        label: { fr: "Exécution unique", en: "One-off run" }, amount: 3000, usd: 5,
         detail: { fr: "Un XLSForm généré à partir de votre questionnaire.", en: "One XLSForm generated from your questionnaire." }
       },
       abonnement: {
-        label: { fr: "Abonnement", en: "Subscription" }, amount: 5000, credits: 10, days: 30,
+        label: { fr: "Abonnement", en: "Subscription" }, amount: 5000, usd: 9, credits: 10, days: 30,
         detail: { fr: "10 créations ou corrections de formulaire, avec clé d'accès valable 30 jours.", en: "10 form creations or corrections, with an access key valid for 30 days." }
       }
     }
@@ -122,11 +122,11 @@ var PRODUCTS = [
     },
     plans: {
       unique: {
-        label: { fr: "Exécution unique", en: "One-off run" }, amount: 3000,
+        label: { fr: "Exécution unique", en: "One-off run" }, amount: 3000, usd: 5,
         detail: { fr: "Un XLSForm SurveyCTO généré à partir de votre questionnaire.", en: "One SurveyCTO XLSForm generated from your questionnaire." }
       },
       abonnement: {
-        label: { fr: "Abonnement", en: "Subscription" }, amount: 5000, credits: 10, days: 30,
+        label: { fr: "Abonnement", en: "Subscription" }, amount: 5000, usd: 9, credits: 10, days: 30,
         detail: { fr: "10 créations ou corrections de formulaire, avec clé d'accès valable 30 jours.", en: "10 form creations or corrections, with an access key valid for 30 days." }
       }
     }
@@ -173,11 +173,11 @@ var PRODUCTS = [
     },
     plans: {
       unique: {
-        label: { fr: "Exécution unique", en: "One-off run" }, amount: 5000,
+        label: { fr: "Exécution unique", en: "One-off run" }, amount: 5000, usd: 9,
         detail: { fr: "Un XLSForm, son dictionnaire des variables et son plan d'analyse.", en: "One XLSForm with its variable dictionary and analysis plan." }
       },
       abonnement: {
-        label: { fr: "Abonnement", en: "Subscription" }, amount: 10000, credits: 10, days: 30,
+        label: { fr: "Abonnement", en: "Subscription" }, amount: 10000, usd: 17, credits: 10, days: 30,
         detail: { fr: "10 créations ou corrections de formulaire, avec clé d'accès valable 30 jours.", en: "10 form creations or corrections, with an access key valid for 30 days." }
       }
     }
@@ -224,11 +224,11 @@ var PRODUCTS = [
     },
     plans: {
       unique: {
-        label: { fr: "Exécution unique", en: "One-off run" }, amount: 10000,
+        label: { fr: "Exécution unique", en: "One-off run" }, amount: 10000, usd: 17,
         detail: { fr: "Un XLSForm, son plan d'analyse et ses scripts R.", en: "One XLSForm with its analysis plan and R scripts." }
       },
       abonnement: {
-        label: { fr: "Abonnement", en: "Subscription" }, amount: 15000, credits: 10, days: 30,
+        label: { fr: "Abonnement", en: "Subscription" }, amount: 15000, usd: 26, credits: 10, days: 30,
         detail: { fr: "10 créations ou corrections de formulaire, ou 10 corrections de script selon les changements du questionnaire.", en: "10 form creations or corrections, or 10 script corrections as your questionnaire changes." }
       }
     }
@@ -277,11 +277,11 @@ var PRODUCTS = [
     },
     plans: {
       unique: {
-        label: { fr: "Exécution unique", en: "One-off run" }, amount: 15000,
+        label: { fr: "Exécution unique", en: "One-off run" }, amount: 15000, usd: 26,
         detail: { fr: "Un XLSForm, son plan d'analyse, ses scripts R et son dashboard Power BI.", en: "One XLSForm with its analysis plan, R scripts and Power BI dashboard." }
       },
       abonnement: {
-        label: { fr: "Abonnement", en: "Subscription" }, amount: 25000, credits: 10, days: 30,
+        label: { fr: "Abonnement", en: "Subscription" }, amount: 25000, usd: 43, credits: 10, days: 30,
         detail: { fr: "10 créations ou corrections de formulaire, ou 10 corrections de script, avec correction du modèle de données selon les changements du questionnaire.", en: "10 form creations or corrections, or 10 script corrections, with data model updates as your questionnaire changes." }
       }
     }
@@ -291,6 +291,14 @@ var PRODUCTS = [
 function xlsFindProduct(id){
   for (var i = 0; i < PRODUCTS.length; i++){ if (PRODUCTS[i].id === id) return PRODUCTS[i]; }
   return null;
+}
+
+/* Prix affiché selon la langue : FCFA en français, dollars américains en anglais.
+   Les montants en dollars sont fixes et arrondis (taux de référence : 1 USD ≈ 583 FCFA,
+   octobre 2026) ; le paiement Chariow reste facturé dans la devise de la boutique. */
+function xlsFmtPrice(plan){
+  if (typeof XLS_LANG !== "undefined" && XLS_LANG === "en" && plan.usd) return "US$" + plan.usd;
+  return xlsFmtFCFA(plan.amount);
 }
 
 function xlsFmtFCFA(n){

@@ -206,7 +206,7 @@ var I18N = {
     order_sent: "Order sent",
     pay_label: "Payment",
     pay_btn: "Pay for {b} on Chariow",
-    pay_note: "After payment, get your key on the activation page, using the email you paid with on Chariow.",
+    pay_note: "Prices in US dollars are indicative: Chariow may charge the equivalent in your local currency. After payment, get your key on the activation page, using the email you paid with on Chariow.",
     f_email: "Email used on Chariow",
     f_email_hint: "Your deliverables will be sent to this address.",
     f_lang: "Deliverables language",
