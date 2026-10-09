@@ -237,22 +237,22 @@ var PRODUCTS = [
     id: "dashboard",
     packLabel: { fr: "Pack 5", en: "Pack 5" },
     brand: "FormR Premium",
-    tag: "xlsform + plan + dashboard",
+    tag: "xlsform + plan + r + dashboard",
     tagline: {
       fr: "La formule complète : de la collecte à la décision.",
       en: "The complete package: from data collection to decision."
     },
     desc: {
-      fr: "Tout FormR Stats, plus un tableau de bord interactif construit sur les variables de votre questionnaire.",
-      en: "Everything in FormR Stats, plus an interactive dashboard built on your questionnaire's variables."
+      fr: "XLSForm, dictionnaire, plan d'analyse, scripts R et dashboard interactif, tous bâtis sur les variables de votre questionnaire.",
+      en: "XLSForm, variable dictionary, analysis plan, R scripts and interactive dashboard, all built on your questionnaire's variables."
     },
     webhookPath: "afac4eba-5ba6-4783-a7e6-9cc15dc05b8e",
     chariowProduct: "prd_h7cwryq1",
     fields: "extended",
     formats: [".docx", ".xlsx", ".pdf"],
     duration: {
-      fr: "en une dizaine de minutes après envoi",
-      en: "about 10 minutes after submission"
+      fr: "environ 20 minutes après envoi",
+      en: "about 20 minutes after submission"
     },
     popular: false,
     progress: 100,
@@ -263,28 +263,28 @@ var PRODUCTS = [
     },
     deliverables: {
       fr: [
-        "Dashboard HTML interactif bâti sur les variables réelles de votre questionnaire",
-        "Il s'ouvre dans un navigateur, sans logiciel ni compte à installer",
-        "Chargez votre export CSV ou Excel : indicateurs et graphiques se mettent à jour",
-        "Des données de démonstration permettent de le parcourir dès l'ouverture",
+        "XLSForm Kobo/ODK ou SurveyCTO, dictionnaire des variables (Excel) et plan d'analyse (Word)",
+        "Projet R complet : import de votre export, nettoyage, un script par section du plan, rapport Word",
+        "Dashboard HTML interactif : indicateurs et graphiques sur les variables réelles du questionnaire",
+        "Il s'ouvre dans un navigateur, avec des données de démonstration ; chargez votre export CSV ou Excel pour voir vos chiffres",
         "Dashboard Power BI ou Shiny sur mesure : sur devis, délai convenu séparément"
       ],
       en: [
-        "Interactive HTML dashboard built on your questionnaire's real variables",
-        "Opens in a web browser, with no software or account to install",
-        "Load your CSV or Excel export and the indicators and charts update",
-        "Demo data lets you explore it as soon as you open it",
+        "XLSForm for Kobo/ODK or SurveyCTO, variable dictionary (Excel) and analysis plan (Word)",
+        "Complete R project: import of your export, cleaning, one script per plan section, Word report",
+        "Interactive HTML dashboard: indicators and charts on your questionnaire's real variables",
+        "Opens in a web browser with demo data; load your CSV or Excel export to see your own figures",
         "Custom Power BI or Shiny dashboard: on quote, with a separately agreed timeline"
       ]
     },
     plans: {
       unique: {
         label: { fr: "Exécution unique", en: "One-off run" }, amount: 15000, usd: 26,
-        detail: { fr: "Un XLSForm, son plan d'analyse, ses scripts R et son dashboard HTML interactif.", en: "One XLSForm with its analysis plan, R scripts and interactive HTML dashboard." }
+        detail: { fr: "Un XLSForm avec son dictionnaire, son plan d'analyse, ses scripts R et son dashboard HTML interactif.", en: "One XLSForm with its dictionary, analysis plan, R scripts and interactive HTML dashboard." }
       },
       abonnement: {
         label: { fr: "Abonnement", en: "Subscription" }, amount: 25000, usd: 43, credits: 10, days: 30,
-        detail: { fr: "10 créations ou corrections de formulaire, ou 10 corrections de script, avec un dashboard régénéré selon les changements du questionnaire.", en: "10 form creations or corrections, or 10 script corrections, with the dashboard regenerated as your questionnaire changes." }
+        detail: { fr: "10 générations complètes, création ou correction : XLSForm, plan, scripts R et dashboard refaits à chaque fois. Clé valable 30 jours.", en: "10 full runs, new or corrected questionnaire: XLSForm, plan, R scripts and dashboard rebuilt each time. Key valid for 30 days." }
       }
     }
   }
