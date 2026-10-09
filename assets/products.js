@@ -192,44 +192,44 @@ var PRODUCTS = [
       en: "From data collection to first tables, with no re-entry."
     },
     desc: {
-      fr: "Ajoute des scripts R d'import, de nettoyage et de tableaux croisés, générés à partir de la structure exacte de votre questionnaire.",
-      en: "Adds R scripts for import, cleaning and cross-tabulations, generated from the exact structure of your questionnaire."
+      fr: "Ajoute un projet R complet : apurement statistique contrôlé et tracé, un script d'analyse par section du plan et un rapport Word, bâtis sur la structure exacte de votre questionnaire.",
+      en: "Adds a complete R project: controlled, traceable statistical cleaning, one analysis script per plan section and a Word report, built on your questionnaire's exact structure."
     },
     webhookPath: "177a8632-f1ae-4062-bd9b-2a7bdd6c4d70",
     chariowProduct: "prd_5ojovb4m",
     standaloneFormUrl: "https://trebi7.github.io/XLSForm-Plan-Analyse-Scripts-R/",
     fields: "extended",
     formats: [".docx", ".xlsx", ".pdf"],
-    duration: { fr: "en environ 6 minutes après envoi", en: "about 6 minutes after submission" },
+    duration: { fr: "environ 16 minutes après envoi", en: "about 16 minutes after submission" },
     popular: false,
     progress: 75,
     inheritsFrom: { id: "plan-analyse", label: { fr: "Tout DataReady", en: "Everything in DataReady" } },
     highlights: {
-      fr: ["Script R d'import et de nettoyage", "Script R de tableaux croisés", "Données fictives pour tester"],
-      en: ["R import and cleaning script", "R cross-tabulation script", "Mock data to test the scripts"]
+      fr: ["Apurement statistique tracé", "Un script R par section du plan", "Rapport Word automatique"],
+      en: ["Traceable statistical cleaning", "One R script per plan section", "Automatic Word report"]
     },
     deliverables: {
       fr: [
-        "Script R d'import et de nettoyage (manquants, doublons, valeurs aberrantes)",
-        "Script R de tableaux croisés prêts à l'emploi dès réception des données",
-        "Fichier de données fictives pour tester les scripts avant la collecte",
-        "Abonnement : corrections de formulaire ou de script incluses"
+        "Apurement rigoureux : doublons, codes invalides, bornes et sauts du XLSForm, valeurs extrêmes (Tukey, z robuste) signalées sans suppression",
+        "Journal de chaque correction et rapport qualité Excel ; données brutes jamais modifiées, aucune imputation",
+        "Un script d'analyse par section du plan (indicateurs, graphiques, tableaux) et un rapport Word",
+        "Import direct de votre export Kobo, ODK, Ona ou SurveyCTO (CSV ou Excel), sans connexion API"
       ],
       en: [
-        "R script for import and cleaning (missing values, duplicates, outliers)",
-        "R script for cross-tabulations, ready to run as soon as data arrives",
-        "Mock dataset to test the scripts before fieldwork",
-        "Subscription: form or script corrections included"
+        "Rigorous cleaning: duplicates, invalid codes, XLSForm ranges and skip logic, outliers (Tukey, robust z) flagged, never deleted",
+        "Log of every correction and Excel quality report; raw data never modified, no imputation",
+        "One analysis script per plan section (indicators, charts, tables) and a Word report",
+        "Direct import of your Kobo, ODK, Ona or SurveyCTO export (CSV or Excel), no API connection"
       ]
     },
     plans: {
       unique: {
         label: { fr: "Exécution unique", en: "One-off run" }, amount: 10000, usd: 17,
-        detail: { fr: "Un XLSForm, son plan d'analyse et ses scripts R.", en: "One XLSForm with its analysis plan and R scripts." }
+        detail: { fr: "Un XLSForm avec son dictionnaire, son plan d'analyse et son projet R (apurement et analyse).", en: "One XLSForm with its dictionary, analysis plan and R project (cleaning and analysis)." }
       },
       abonnement: {
         label: { fr: "Abonnement", en: "Subscription" }, amount: 15000, usd: 26, credits: 10, days: 30,
-        detail: { fr: "10 créations ou corrections de formulaire, ou 10 corrections de script selon les changements du questionnaire.", en: "10 form creations or corrections, or 10 script corrections as your questionnaire changes." }
+        detail: { fr: "10 générations complètes, création ou correction : XLSForm, plan et scripts R refaits à chaque fois. Clé valable 30 jours.", en: "10 full runs, new or corrected questionnaire: XLSForm, plan and R scripts rebuilt each time. Key valid for 30 days." }
       }
     }
   },
@@ -264,14 +264,14 @@ var PRODUCTS = [
     deliverables: {
       fr: [
         "XLSForm Kobo/ODK ou SurveyCTO, dictionnaire des variables (Excel) et plan d'analyse (Word)",
-        "Projet R complet : import de votre export, nettoyage, un script par section du plan, rapport Word",
+        "Projet R complet : apurement statistique tracé (journal, rapport qualité), un script par section du plan, rapport Word",
         "Dashboard HTML interactif : indicateurs et graphiques sur les variables réelles du questionnaire",
         "Il s'ouvre dans un navigateur, avec des données de démonstration ; chargez votre export CSV ou Excel pour voir vos chiffres",
         "Dashboard Power BI ou Shiny sur mesure : sur devis, délai convenu séparément"
       ],
       en: [
         "XLSForm for Kobo/ODK or SurveyCTO, variable dictionary (Excel) and analysis plan (Word)",
-        "Complete R project: import of your export, cleaning, one script per plan section, Word report",
+        "Complete R project: traceable statistical cleaning (log, quality report), one script per plan section, Word report",
         "Interactive HTML dashboard: indicators and charts on your questionnaire's real variables",
         "Opens in a web browser with demo data; load your CSV or Excel export to see your own figures",
         "Custom Power BI or Shiny dashboard: on quote, with a separately agreed timeline"
