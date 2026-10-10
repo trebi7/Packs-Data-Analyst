@@ -32,7 +32,7 @@
   <div class="container">
     <a href="index.html#packs" class="page-crumb" data-i18n="crumb_back">&larr; retour aux packs</a>
     <h1 data-i18n="up_h1">🔄 Mise à jour de votre formulaire</h1>
-    <p data-i18n="up_intro">Vous avez un abonnement en cours et votre questionnaire a changé ? Renvoyez-le avec votre clé — pas besoin de repayer tant que vos crédits et vos 30 jours ne sont pas épuisés.</p>
+    <p data-i18n="up_intro">Votre questionnaire a changé ? Renvoyez-le avec votre clé — pas besoin de repayer tant que vos crédits et vos 30 jours ne sont pas épuisés.</p>
   </div>
 </section>
 
@@ -43,7 +43,7 @@
     <div class="field-title-sub" data-i18n="up_form_sub">L’email et la clé doivent correspondre à ceux de votre commande initiale.</div>
 
     <div class="notice" data-i18n-html="up_notice">
-      <strong>Vérification automatique.</strong> Votre email et votre clé sont vérifiés instantanément par notre serveur avant tout envoi de fichier : abonnement actif, crédits restants et délai de 30 jours. Un email ou une clé erronée est signalé immédiatement, sans que votre fichier ne soit transmis.
+      <strong>Vérification automatique.</strong> Votre email et votre clé sont vérifiés instantanément par notre serveur avant tout envoi de fichier : clé active, crédits restants et délai de 30 jours. Un email ou une clé erronée est signalé immédiatement, sans que votre fichier ne soit transmis.
     </div>
 
     <form class="order-form" id="order-form">
@@ -65,7 +65,7 @@
         </div>
 
         <div class="field">
-          <label><span data-i18n="f_key">Clé d’abonnement</span> <span class="req">*</span></label>
+          <label><span data-i18n="f_key">Clé d’accès</span> <span class="req">*</span></label>
           <input type="text" id="key" name="cle_abonnement" required autocomplete="off" spellcheck="false" data-i18n-placeholder="ph_key" placeholder="Ex. KOB-4F2A-9QRT" style="text-transform:uppercase;">
         </div>
 
@@ -135,8 +135,8 @@
     <div class="summary-brand" data-i18n="aside_brand">Rappel</div>
     <div class="summary-name" style="font-size:1.05rem;" data-i18n="aside_title">Comment ça marche</div>
     <ul class="summary-deliverables">
-      <li data-i18n="aside_1">Votre clé vous a été communiquée à la commande de votre abonnement</li>
-      <li data-i18n="aside_2">Chaque abonnement donne droit à 10 créations ou corrections</li>
+      <li data-i18n="aside_1">Votre clé arrive par email après le paiement, depuis la page d’activation</li>
+      <li data-i18n="aside_2">Pass 30 jours : 10 crédits, payés une seule fois, sans renouvellement. Exécution unique : 1 crédit</li>
       <li data-i18n="aside_3">Valable 30 jours à partir de la date d’achat</li>
       <li data-i18n="aside_4">Clé perdue ? Recevez-la à nouveau sur la page d’activation</li>
       <li><a class="activate-link" href="activer.html" data-i18n="update_link">🔑 Recevoir ma clé d’accès</a></li>
@@ -152,8 +152,8 @@
 
 <iframe name="silent-target" title="Envoi du formulaire" style="position:absolute; width:1px; height:1px; opacity:0; pointer-events:none;"></iframe>
 
-<script src="assets/i18n.js"></script>
-<script src="assets/products.js?v=20261009c"></script>
+<script src="assets/i18n.js?v=20261010a"></script>
+<script src="assets/products.js?v=20261010a"></script>
 <script>
 (function(){
   "use strict";
@@ -305,9 +305,9 @@
     }
     /* Note interne pour l'opérateur : toujours en français */
     obsHidden.value =
-      "DEMANDE DE MISE A JOUR (abonnement)\n" +
+      "DEMANDE DE MISE A JOUR (pass 30 jours)\n" +
       "Email de commande initiale : " + email + "\n" +
-      "Clé d'abonnement fournie : " + key + "\n" +
+      "Clé d'accès fournie : " + key + "\n" +
       "Langue de l'interface : " + XLS_LANG.toUpperCase() + "\n\n" +
       "Changements apportés au questionnaire :\n" + notes;
     langHidden.value = XLS_LANG;
@@ -320,7 +320,7 @@
 
     /* Vérification serveur réelle (n8n Data Table) AVANT tout envoi de
        fichier : on n'appelle form.submit() que si l'email + la clé
-       correspondent à un abonnement actif, avec des crédits restants,
+       correspondent à une clé active, avec des crédits restants,
        encore dans les 30 jours. */
     fetch(WEBHOOK_BASE + "abonnement-verification", {
       method: "POST",

@@ -34,7 +34,7 @@ var I18N = {
     file_too_big: "Fichier trop volumineux ({s} Mo). 25 Mo maximum.",
     file_ok: "{n} — {s} Mo. Fichier prêt.",
     one_off: "Exécution unique",
-    subscription: "Abonnement",
+    subscription: "Pass 30 jours (10 crédits)",
 
     /* --- index.html --- */
     title_index: "XLSForm Pro — Convertisseur de questionnaires KoboToolbox",
@@ -44,7 +44,7 @@ var I18N = {
     step1_t: "Choisissez votre pack",
     step1_d: "KoboConvert, CTOConvert, DataReady, FormR Stats ou FormR Premium.",
     step2_t: "Payez sur Chariow",
-    step2_d: "Réglez votre pack sur Chariow, en formule unique ou en abonnement.",
+    step2_d: "Réglez votre pack sur Chariow, en exécution unique ou en pass 30 jours (10 crédits).",
     step3_t: "Recevez votre clé",
     step3_d: "Saisissez l’email du paiement sur la page d’activation : votre clé d’accès arrive par email.",
     step4_t: "Envoyez votre questionnaire",
@@ -117,7 +117,7 @@ var I18N = {
     aside_brand: "Rappel",
     aside_title: "Comment ça marche",
     aside_1: "Votre clé arrive par email après le paiement, depuis la page d’activation",
-    aside_2: "Abonnement : 10 créations ou corrections. Formule unique : 1",
+    aside_2: "Pass 30 jours : 10 crédits, payés une seule fois, sans renouvellement. Exécution unique : 1 crédit",
     aside_3: "Valable 30 jours à partir de la date d’achat",
     aside_4: "Clé perdue ? Recevez-la à nouveau sur la page d’activation",
 
@@ -145,7 +145,7 @@ var I18N = {
     act_unreachable: "Le serveur d’activation n’a pas répondu. Réessayez dans un instant.",
     act_next: "Ouvrez ensuite le formulaire de votre pack et saisissez la clé avec cette même adresse email.",
     act_aside_1: "Une clé par pack acheté, envoyée à l’email du paiement",
-    act_aside_2: "Formule unique : 1 génération. Abonnement : 10 créations ou corrections",
+    act_aside_2: "Exécution unique : 1 génération. Pass 30 jours : 10 générations, sans renouvellement automatique",
     act_aside_3: "Valable 30 jours à partir de la date d’achat",
     act_aside_4: "Vous pouvez redemander votre clé à tout moment : c’est toujours la même"
   },
@@ -170,7 +170,7 @@ var I18N = {
     file_too_big: "File too large ({s} MB). 25 MB maximum.",
     file_ok: "{n} ({s} MB). File ready.",
     one_off: "One-off run",
-    subscription: "Subscription",
+    subscription: "30-day pass (10 credits)",
 
     /* --- index.html --- */
     title_index: "XLSForm Pro — KoboToolbox questionnaire converter",
@@ -180,7 +180,7 @@ var I18N = {
     step1_t: "Choose your pack",
     step1_d: "KoboConvert, CTOConvert, DataReady, FormR Stats or FormR Premium.",
     step2_t: "Pay on Chariow",
-    step2_d: "Pay for your pack on Chariow, as a one-off run or a subscription.",
+    step2_d: "Pay for your pack on Chariow, as a one-off run or a 30-day pass (10 credits).",
     step3_t: "Get your key",
     step3_d: "Enter your payment email on the activation page and your access key arrives by email.",
     step4_t: "Send your questionnaire",
@@ -253,7 +253,7 @@ var I18N = {
     aside_brand: "Reminder",
     aside_title: "How it works",
     aside_1: "Your key arrives by email after payment, from the activation page",
-    aside_2: "Subscription: 10 creations or corrections. One-off: 1",
+    aside_2: "30-day pass: 10 credits, paid once, no renewal. One-off run: 1 credit",
     aside_3: "Valid for 30 days from the purchase date",
     aside_4: "Lost your key? Get it again on the activation page",
 
@@ -281,7 +281,7 @@ var I18N = {
     act_unreachable: "The activation server did not respond. Please try again in a moment.",
     act_next: "Then open your pack's form and enter the key with this same email address.",
     act_aside_1: "One key per pack purchased, sent to the payment email",
-    act_aside_2: "One-off: 1 generation. Subscription: 10 creations or corrections",
+    act_aside_2: "One-off run: 1 generation. 30-day pass: 10 generations, no automatic renewal",
     act_aside_3: "Valid for 30 days from the purchase date",
     act_aside_4: "You can ask for your key again at any time: it is always the same one"
   }

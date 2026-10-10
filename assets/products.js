@@ -8,7 +8,7 @@
 
 var WEBHOOK_BASE = "https://davy77.app.n8n.cloud/webhook/";
 var CONTACT_EMAIL = "armanddavy7@gmail.com";
-/* Boutique Chariow : chaque pack y a sa page de paiement (formule unique ou abonnement).
+/* Boutique Chariow : chaque pack y a sa page de paiement (exécution unique ou pass 30 jours).
    Après paiement, le client reçoit sa clé d'accès via activer.html. */
 var CHARIOW_STORE = "https://ymkecnxg.mychariow.com/";
 var ACTIVATION_PATH = "activer-xlsform";
@@ -75,8 +75,8 @@ var PRODUCTS = [
         detail: { fr: "Un XLSForm généré à partir de votre questionnaire.", en: "One XLSForm generated from your questionnaire." }
       },
       abonnement: {
-        label: { fr: "Abonnement", en: "Subscription" }, amount: 5000, usd: 9, credits: 10, days: 30,
-        detail: { fr: "10 créations ou corrections de formulaire, avec clé d'accès valable 30 jours.", en: "10 form creations or corrections, with an access key valid for 30 days." }
+        label: { fr: "Pass 30 jours (10 crédits)", en: "30-day pass (10 credits)" }, amount: 5000, usd: 9, credits: 10, days: 30,
+        detail: { fr: "Un seul paiement, sans renouvellement automatique : 10 créations ou corrections de formulaire avec une clé valable 30 jours.", en: "One payment, no automatic renewal: 10 form creations or corrections with a key valid for 30 days." }
       }
     }
   },
@@ -126,8 +126,8 @@ var PRODUCTS = [
         detail: { fr: "Un XLSForm SurveyCTO généré à partir de votre questionnaire.", en: "One SurveyCTO XLSForm generated from your questionnaire." }
       },
       abonnement: {
-        label: { fr: "Abonnement", en: "Subscription" }, amount: 5000, usd: 9, credits: 10, days: 30,
-        detail: { fr: "10 créations ou corrections de formulaire, avec clé d'accès valable 30 jours.", en: "10 form creations or corrections, with an access key valid for 30 days." }
+        label: { fr: "Pass 30 jours (10 crédits)", en: "30-day pass (10 credits)" }, amount: 5000, usd: 9, credits: 10, days: 30,
+        detail: { fr: "Un seul paiement, sans renouvellement automatique : 10 créations ou corrections de formulaire avec une clé valable 30 jours.", en: "One payment, no automatic renewal: 10 form creations or corrections with a key valid for 30 days." }
       }
     }
   },
@@ -177,8 +177,8 @@ var PRODUCTS = [
         detail: { fr: "Un XLSForm, son dictionnaire des variables et son plan d'analyse.", en: "One XLSForm with its variable dictionary and analysis plan." }
       },
       abonnement: {
-        label: { fr: "Abonnement", en: "Subscription" }, amount: 10000, usd: 17, credits: 10, days: 30,
-        detail: { fr: "10 créations ou corrections de formulaire, avec clé d'accès valable 30 jours.", en: "10 form creations or corrections, with an access key valid for 30 days." }
+        label: { fr: "Pass 30 jours (10 crédits)", en: "30-day pass (10 credits)" }, amount: 10000, usd: 17, credits: 10, days: 30,
+        detail: { fr: "Un seul paiement, sans renouvellement automatique : 10 créations ou corrections de formulaire avec une clé valable 30 jours.", en: "One payment, no automatic renewal: 10 form creations or corrections with a key valid for 30 days." }
       }
     }
   },
@@ -228,8 +228,8 @@ var PRODUCTS = [
         detail: { fr: "Un XLSForm avec son dictionnaire, son plan d'analyse et son projet R (apurement et analyse).", en: "One XLSForm with its dictionary, analysis plan and R project (cleaning and analysis)." }
       },
       abonnement: {
-        label: { fr: "Abonnement", en: "Subscription" }, amount: 15000, usd: 26, credits: 10, days: 30,
-        detail: { fr: "10 générations complètes, création ou correction : XLSForm, plan et scripts R refaits à chaque fois. Clé valable 30 jours.", en: "10 full runs, new or corrected questionnaire: XLSForm, plan and R scripts rebuilt each time. Key valid for 30 days." }
+        label: { fr: "Pass 30 jours (10 crédits)", en: "30-day pass (10 credits)" }, amount: 15000, usd: 26, credits: 10, days: 30,
+        detail: { fr: "Un seul paiement, sans renouvellement automatique : 10 générations complètes (création ou correction), avec XLSForm, plan et scripts R refaits à chaque fois. Clé valable 30 jours.", en: "One payment, no automatic renewal: 10 full runs (new or corrected questionnaire), with XLSForm, plan and R scripts rebuilt each time. Key valid for 30 days." }
       }
     }
   },
@@ -283,8 +283,8 @@ var PRODUCTS = [
         detail: { fr: "Un XLSForm avec son dictionnaire, son plan d'analyse, ses scripts R et son dashboard HTML interactif.", en: "One XLSForm with its dictionary, analysis plan, R scripts and interactive HTML dashboard." }
       },
       abonnement: {
-        label: { fr: "Abonnement", en: "Subscription" }, amount: 25000, usd: 43, credits: 10, days: 30,
-        detail: { fr: "10 générations complètes, création ou correction : XLSForm, plan, scripts R et dashboard refaits à chaque fois. Clé valable 30 jours.", en: "10 full runs, new or corrected questionnaire: XLSForm, plan, R scripts and dashboard rebuilt each time. Key valid for 30 days." }
+        label: { fr: "Pass 30 jours (10 crédits)", en: "30-day pass (10 credits)" }, amount: 25000, usd: 43, credits: 10, days: 30,
+        detail: { fr: "Un seul paiement, sans renouvellement automatique : 10 générations complètes (création ou correction), avec XLSForm, plan, scripts R et dashboard refaits à chaque fois. Clé valable 30 jours.", en: "One payment, no automatic renewal: 10 full runs (new or corrected questionnaire), with XLSForm, plan, R scripts and dashboard rebuilt each time. Key valid for 30 days." }
       }
     }
   }
